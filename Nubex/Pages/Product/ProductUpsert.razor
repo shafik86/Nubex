@@ -8,82 +8,145 @@
 <div class="row">
     <h3 class="card-title text-primary mb-3 ml-3">@Title Product</h3>
 
-    <div class="col-md-10">
+    <div class="col-md-12">
         @if (IsLoading)
         {
+            <div class="col-12">
+                <progress class="progress-bar-animated w-100">
 
-                <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
-
+                </progress>
+            </div>
         }
         else
         {
             <EditForm Model="products" OnValidSubmit="UpsertProduct">
                 <DataAnnotationsValidator />
                 @*<ValidationSummary/>*@
-                <div class="form-group">
-                    <label>Name</label>
-                    <InputText @bind-Value="products.ProductName" class="form-control"></InputText>
-                    <ValidationMessage For="()=>products.ProductName" />
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>Name</label>
+                        <InputText @bind-Value="products.ProductName" class="form-control"></InputText>
+                        <ValidationMessage For="()=>products.ProductName" />
+                    </div>
+                    <div class="form-group col-6">
+                        <label>SKU</label>
+                        <InputText @bind-Value="products.ProductSKU" class="form-control"></InputText>
+                        <ValidationMessage For="()=>products.ProductSKU" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <SfRichTextEditor @bind-Value="products.Description" class="form-control"></SfRichTextEditor>
+                        <ValidationMessage For="()=>products.Description" />
+                    </div>
+
+                    <div class="row pt-3">
+                        @*<div class="form-group col-3">
+                            <div class="form-check">
+                            <InputCheckbox @bind-Value="products.IsTax" class="form-check-input"></InputCheckbox>
+                            <label class="form-check-label">Is Tax</label>
+                            </div>
+                            </div>*@
+
+                        @*<div class="form-group col-4">
+                            <div class="form-check">
+                            <InputCheckbox @bind-Value="products.IsHighlighted" class="form-check-input"></InputCheckbox>
+                            <label class="form-check-label">Is Highlight</label>
+                            </div>
+                            </div>*@
+                        <div class="form-group col-6">
+                            <div>
+                                <label>Weight (Gram)</label>
+                                <InputNumber @bind-Value="products.Weight" class="form-control"></InputNumber>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label>Category</label>
+                            <InputSelect @bind-Value="products.CategoryId" class="form-select">
+                                <option value="0" disabled="disabled" selected>--Select Categeory--</option>
+                                @foreach (var item in categories)
+                                {
+                                <option value="@item.Id" id="@item.Id">@item.Name</option>
+                                }
+                        </InputSelect>
+                        <ValidationMessage For="()=>products.CategoryId" />
+                    </div>
+                    @*                <div class="row pt-3 col-12">
+                        <div class="form-group pt-3 col-3">
+                        <InputFile OnChange="HandleImageUpload"></InputFile>
+                        </div>
+                        <div class="form-group pt-3 col-3">
+                        <InputFile OnChange="HandleImageUpload"></InputFile>
+                        </div>
+                        <div class="form-group pt-3 col-3">
+                        <InputFile OnChange="HandleImageUpload"></InputFile>
+                        </div>
+                        </div>*@
                 </div>
-                <div class="form-group">
-                    <label>Color</label>
-                    <InputText @bind-Value="products.Detail" class="form-control"></InputText>
-                    <ValidationMessage For="()=>products.Detail" />
+                <div class="row pt-3">
+                    <div class="form-group col-6">
+                        <label>Product Detail</label>
+                        <InputText @bind-Value="products.Detail" class="form-control"></InputText>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Purify</label>
+                        <InputSelect @bind-Value="products.Purify" class="form-control">
+                            <option value="0" disabled="disabled" selected>--Select Categeory--</option>
+                            <option value="999" selected>999</option>
+                            <option value="916" selected>916</option>
+                        </InputSelect>
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="row pt-3">
+                    <div class="form-group col-6">
+                        <label>Manufacture</label>
+                        <InputText @bind-Value="products.Manufacture" class="form-control"></InputText>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Certificate</label>
+                        <InputText @bind-Value="products.Certificate" class="form-control"></InputText>
+                    </div>
+                </div>
+
+                <div class="form-group pt-3">
                     <label>Description</label>
                     <SfRichTextEditor @bind-Value="products.Description" class="form-control"></SfRichTextEditor>
                     <ValidationMessage For="()=>products.Description" />
                 </div>
-
-                <div class="row pt-3">
-                    <div class="form-group col-6">
-                        <div class="form-check">
-                            <InputCheckbox @bind-Value="products.IsTax" class="form-check-input"></InputCheckbox>
-                            <label class="form-check-label">Is Tax</label>
+                <br />
+                <div class="w-100">
+                    <div class="row p-5">
+                        <div class="col-4">
+                            <img src="@products.Image1" class="w-100" />
+                            <div class="form-group">
+                                <InputFile OnChange="HandleImageUpload"></InputFile>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <img src="@products.Image2" class="w-100" />
+                            <div class="form-group">
+                                <InputFile OnChange="HandleImageUpload"></InputFile>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <img src="@products.Image3" class="w-100" />
+                            <div class="form-group">
+                                <InputFile OnChange="HandleImageUpload"></InputFile>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-6">
-                        <div class="form-check">
-                            <InputCheckbox @bind-Value="products.IsHighlighted" class="form-check-input"></InputCheckbox>
-                            <label class="form-check-label">Is Highlight</label>
-                        </div>
-                    </div>
-                    <div class="form-group col-6">
-                        <div class="form-check-input">
-                            <label>Weight</label>
-                            <InputNumber @bind-Value="products.Weight" class="form-control"></InputNumber>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-6">
-                        <label>Category</label>
-                        <InputSelect @bind-Value="products.CategoryId" class="form-select">
-                            <option value="0" disabled="disabled" selected>--Select Categeory--</option>
-                            @foreach (var item in categories)
-                            {
-                            <option value="@item.Id" id="@item.Id">@item.Name</option>
-                            }
-                    </InputSelect>
-                    <ValidationMessage For="()=>products.CategoryId" />
-                </div>
-                <div class="form-group pt-4 col-6">
-
-                    <InputFile OnChange="HandleImageUpload"></InputFile>
 
                 </div>
+                 </div>
+                <br />
+                <div class="form-group py-2">
 
-            </div>
-            <div class="form-group py-2">
-                
-                <button class="btn btn-primary" @onclick="UpsertProduct">@Title</button>
-                <NavLink href="product" class="btn btn-secondary">Back to Index</NavLink>
-            </div>
+                    <button class="btn btn-primary" @onclick="UpsertProduct">@Title</button>
+                    <NavLink href="product" class="btn btn-secondary">Back to Index</NavLink>
+                </div>
+
         </EditForm>
         }
-    </div>
-    <div class="col-md-2">
-        <img src="@products.Image1" class="w-100" />
     </div>
 </div>
 
@@ -94,7 +157,9 @@
     public IEnumerable<CategoryDTO> categories { get; set; } = new List<CategoryDTO>();
     public ProductDTO products { get; set; } = new()
         {
-            Image1 = "/images/default.jpg"
+            Image1 = "/images/default.jpg",
+            Image2 = "/images/default.jpg",
+            Image3 = "/images/default.jpg"
         };
     public string OldImage { get; set; }
     public string Title { get; set; } = "Create";
@@ -130,7 +195,7 @@
         {
             //create
             await productRepository.Create(products);
-            //await jsRuntime.ToastrSuccess("Product Created Successful");
+            await jsRuntime.ToastrSuccess("Product Created Successful");
         }
         else
         {
@@ -160,11 +225,11 @@
                     fileInfo.Extension.ToLower() == ".jpeg")
                     {
                         products.Image1 = await _fileUpload.UploadFile(file);
-                        //await jsRuntime.ToastrSuccess("Upload image Successful");
+                        await jsRuntime.ToastrSuccess("Upload image Successful");
                     }
                     else
                     {
-                        //await jsRuntime.ToastrError("Please select .jpg/ .jpeg/ .png file only");
+                        await jsRuntime.ToastrError("Please select .jpg/ .jpeg/ .png file only");
                         return;
                     }
                 }

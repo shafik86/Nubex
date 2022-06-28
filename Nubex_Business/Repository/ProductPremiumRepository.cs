@@ -23,10 +23,11 @@ namespace Nubex_Business.Repository
             var product = _mapper.Map<ProductPremiumDTO, ProductPremium>(objDTO);
             try
             {
-                var obj = applicationDbContext.ProductPremiums.Add(product);
-                await applicationDbContext.SaveChangesAsync();
-                return _mapper.Map<ProductPremium, ProductPremiumDTO>(obj.Entity);
-            }
+            var obj = applicationDbContext.ProductPremiums.Add(product);
+            await applicationDbContext.SaveChangesAsync();
+
+            return _mapper.Map<ProductPremium, ProductPremiumDTO>(obj.Entity);
+        }
             catch (Exception)
             {
 
