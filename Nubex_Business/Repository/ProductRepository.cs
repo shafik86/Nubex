@@ -20,11 +20,19 @@ namespace Nubex_Business.Repository
         public async Task<ProductDTO> Create(ProductDTO objDTO)
         {
             var product = _mapper.Map<ProductDTO, Product>(objDTO);
-            
+            try
+            {
             var obj = DbContext.Products.Add(product);
             await DbContext.SaveChangesAsync();
 
             return _mapper.Map<Product, ProductDTO>(obj.Entity);
+        }
+            catch (Exception)
+            {
+
+                return null;
+            }
+            
         }
 
         public  async Task<int> Delete(int id)
