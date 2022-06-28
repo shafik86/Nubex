@@ -24,29 +24,35 @@
                 @*<ValidationSummary/>*@
                 <div class="row">
                     <div class="form-group col-6">
-                        <label>Name</label>
-                        <InputText @bind-Value="products.ProductName" class="form-control"></InputText>
-                        <ValidationMessage For="()=>products.ProductName" />
-                    </div>
+                    <label>Name</label>
+                    <InputText @bind-Value="products.ProductName" class="form-control"></InputText>
+                    <ValidationMessage For="()=>products.ProductName" />
+                </div>
                     <div class="form-group col-6">
                         <label>SKU</label>
                         <InputText @bind-Value="products.ProductSKU" class="form-control"></InputText>
                         <ValidationMessage For="()=>products.ProductSKU" />
-                    </div>
                 </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <SfRichTextEditor @bind-Value="products.Description" class="form-control"></SfRichTextEditor>
+                    <ValidationMessage For="()=>products.Description" />
+                </div>
+                </div>
+
                 <div class="row pt-3">
                     @*<div class="form-group col-3">
-                <div class="form-check">
-                <InputCheckbox @bind-Value="products.IsTax" class="form-check-input"></InputCheckbox>
-                <label class="form-check-label">Is Tax</label>
-                </div>
+                        <div class="form-check">
+                            <InputCheckbox @bind-Value="products.IsTax" class="form-check-input"></InputCheckbox>
+                            <label class="form-check-label">Is Tax</label>
+                        </div>
                 </div>*@
 
                     @*<div class="form-group col-4">
-                <div class="form-check">
-                <InputCheckbox @bind-Value="products.IsHighlighted" class="form-check-input"></InputCheckbox>
-                <label class="form-check-label">Is Highlight</label>
-                </div>
+                        <div class="form-check">
+                            <InputCheckbox @bind-Value="products.IsHighlighted" class="form-check-input"></InputCheckbox>
+                            <label class="form-check-label">Is Highlight</label>
+                        </div>
                 </div>*@
                     <div class="form-group col-6">
                         <div>
@@ -126,18 +132,23 @@
                 <div class="col-4">
                     <img src="@products.Image3" class="w-100" />
                     <div class="form-group">
-                        <InputFile OnChange="HandleImageUpload"></InputFile>
+                    <InputFile OnChange="HandleImageUpload"></InputFile>
                     </div>
                 </div>
-            </div>
+                </div>
+
             </div>
             <br />
             <div class="form-group py-2">
+                
                 <button class="btn btn-primary" @onclick="UpsertProduct">@Title</button>
                 <NavLink href="product" class="btn btn-secondary">Back to Index</NavLink>
             </div>
         </EditForm>
         }
+    </div>
+    <div class="col-md-2">
+        <img src="@products.Image1" class="w-100" />
     </div>
 </div>
 
