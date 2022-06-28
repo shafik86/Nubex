@@ -1,0 +1,91 @@
+﻿@page "/product/price/{Id:int}"
+@inject IProductRepository _ProductRepository
+@inject IProductPremiumRepository _productPremiumRepository
+
+
+<div class="row mt-4">
+    <div class="col-6">
+
+        <h3 class="card-title text-primary mb-3 ml-3">Product Premium Management</h3>
+    </div>
+    <div class=" col-2  offset-4  align-content-end">
+        <a href="/product/price/create" class="btn btn-primary form-control" style="width:100%;">Add New Premium</a>
+    </div>
+    @if (IsLoading)
+    {
+        //loading
+        <div class="col-12">
+            <progress class="progress-bar-animated w-100">
+                Loading in progress
+            </progress>
+        </div>
+    }
+    else
+    {
+        <div class="col-12 p-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>SKU</th>
+                        <th>Condition</th>
+                        <th>Premium Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ProductPrices)
+                    {
+
+
+                        <tr>
+                            <td><img src="@Product.Image1" class="w-25" /> </td>
+                            <td>@Product.ProductName</td>
+                            <td>@Product.ProductSKU</td>
+                            <td>@item.Condition</td>
+                            <td>@item.PriceAdd</td>
+                            <td>
+
+                                <NavLink href="@($"product/price/edit/{item.ProductId}")" class="btn btn-primary rounded-2">
+                                    <span class="oi oi-pencil" aria-hidden="true" />
+                                </NavLink>
+                                <NavLink @onclick="()=>HandleDelete(item.Id)" class="btn btn-danger rounded-2">
+                                    <span class="oi oi-x" aria-hidden="true" />
+
+                                </NavLink>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public ProductDTO Product { get; set; } = new();
+    public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; } = new List<ProductPremiumDTO>();
+    public bool IsLoading { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsLoading = true;
+            StateHasChanged();
+            Product = await _ProductRepository.GetById(Id);
+            ProductPrices = await _productPremiumRepository.GetAll(Id);
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async void HandleDelete(int id)
+    {
+
+    }
+}

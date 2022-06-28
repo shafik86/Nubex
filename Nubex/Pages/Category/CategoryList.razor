@@ -1,0 +1,107 @@
+﻿@page "/Category"
+
+
+@inject ICategoryRepository categoryRepository
+@inject IJSRuntime jsruntimne
+@inject NavigationManager _navigation
+@*<_DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>*@
+<div class="row mt-4">
+    <div class="col-6">
+
+        <h4 class="card-title text-black-50">Category List</h4>
+    </div>
+    <div class=" col-4  offset-2  align-content-end">
+        <a href="/category/create" class="btn btn-primary form-control" style="width:100%;">Add New Category</a>
+    </div>
+
+
+
+    <div class="col-12 p-3">
+        @if (categories.Any())
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in categories)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>
+                                <NavLink href="@($"category/edit/{item.Id}")" class="btn btn-primary">
+                                    <span class="oi oi-pencil" aria-hidden="true" />
+                                    Edit
+                                </NavLink>
+                                <NavLink @onclick="()=>HandleDelete(item.Id)" class="btn btn-danger">
+                                    <span class="oi oi-x" aria-hidden="true" />
+                                    Delete
+                                </NavLink>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            @if (IsLoading)
+            {
+                //loading
+                <div class="col-12">
+                    <progress class="progress-bar-animated w-100">
+                        Loading in progress
+                    </progress>
+                </div>
+            }
+            else
+            {
+
+            }
+        }
+    </div>
+</div>
+@code {
+    public IEnumerable<CategoryDTO> categories { get; set; } = new List<CategoryDTO>();
+    public bool IsLoading { get; set; }
+    public int DeleteId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(LoadItem);
+    }
+
+    private async void LoadItem()
+    {
+        IsLoading = true;
+        categories = await categoryRepository.GetAll();
+        IsLoading = false;
+    }
+
+    private   async void HandleDelete(int id)
+    {
+        DeleteId = id;
+        //r result = jsruntimne.InvokeVoidAsync("ShowDeleteConfirmationModal");
+        //var result =  
+        //if(jsruntimne.InvokeVoidAsync("ShowSwal","delete",DeleteId).IsCompleted)
+        //{
+        //    ConfirmDelete_Click(true);
+        //}
+        await categoryRepository.Delete(DeleteId);
+        LoadItem();
+    }
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        IsLoading=true;
+        if(isConfirmed && DeleteId!=0)
+        {
+            //delete
+            await categoryRepository.Delete(DeleteId);
+             LoadItem();
+            // jsruntimne.InvokeVoidAsync("HideDeleteConfirmationModal");
+        }
+        IsLoading=false;
+    }
+}
