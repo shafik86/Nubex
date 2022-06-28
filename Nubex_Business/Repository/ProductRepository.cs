@@ -48,12 +48,12 @@ namespace Nubex_Business.Repository
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(c => c.Category));
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(c => c.Category).Include(p => p.ProductPrices));
         }
 
         public async Task<ProductDTO> GetById(int id)
         {
-            var result = await DbContext.Products.Include(c => c.Category).FirstOrDefaultAsync(c => c.ProductId == id);
+            var result = await DbContext.Products.Include(c => c.Category).Include(p=> p.ProductPrices).FirstOrDefaultAsync(c => c.ProductId == id);
             if (result != null)
             {
                 return _mapper.Map<Product, ProductDTO>(result);

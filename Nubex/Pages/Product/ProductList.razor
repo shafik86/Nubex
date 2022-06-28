@@ -109,6 +109,7 @@
         }
         await jsruntimne.ToastrSuccess($"Product  is deleted");
         LoadItem();
+        StateHasChanged();
     }
     public async Task ConfirmDelete_Click(bool isConfirmed)
     {

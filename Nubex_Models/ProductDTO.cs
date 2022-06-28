@@ -26,7 +26,7 @@ namespace Nubex_Models
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]
         public int CategoryId { get; set; }
         public CategoryDTO Category { get; set; }
-        public bool IsHighlighted { get; set; }
+        public bool IsHighlighted { get; set; } = false;
 
         public double Weight { get; set; }
         public double Purify { get; set; }
@@ -49,5 +49,6 @@ namespace Nubex_Models
         public string CreatedBy { get; set; } = "Administrators";
         public DateTime? ModifiedOn { get; set; }
         public string? ModifiedBy { get; set; } = "Admin";
+        //public ICollection<ProductPremiumDTO> ProductPrices { get; set; }
     }
 }
