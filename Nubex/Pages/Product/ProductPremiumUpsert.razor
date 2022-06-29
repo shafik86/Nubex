@@ -1,0 +1,147 @@
+﻿@page "/product/price/create/{ProductId:int}"
+@page "/product/price/edit/{Id:int}"
+
+@inject IProductRepository _ProductRepository
+@inject IProductPremiumRepository _ProductPremiumrepository
+@inject NavigationManager _Navigation
+@inject ISnackbar snackbar
+<div class="row mt-4">
+    <div class="col-6">
+        <h3 class="card-title text-primary mb-3 ml-3">@Title Premium Price</h3>
+    </div>
+    @if (IsLoading)
+    {
+
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+
+    }
+    else
+    {
+
+        <div class="container-md border col-12 pt-3 mb-2">
+            <div class="row">
+                <div class="col-3">
+                    <img src="@Product.Image1" class="mb-3" style="width:150px;height:150px;" />
+                </div>
+                <div class="col-6">
+                    <p>Name   : @Product.ProductName</p>
+                    <p>SKU    : @Product.ProductSKU</p>
+                    <p>Purity : @Product.Purify</p>
+                    <p>Tagged : @Product.ProductTag</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-md border w-100">
+                <EditForm Model="ProductPrices" OnValidSubmit="UpsertProductPremium">
+            @if (ProductPrices != null)
+            {
+                    <DataAnnotationsValidator />
+                    @*<ValidationSummary/>*@
+                    <div class="row p-3">
+                        <div class="form-group col-3 pt-2">
+                            <label>Condition</label>
+                            <InputSelect @bind-Value="ProductPrices.Condition" class="form-select">
+                                <option value="0" disabled="disabled" selected>--Select Condition--</option>
+                                <option value="A+" id="1">A+</option>
+                                <option value="A" id="1">A</option>
+                                <option value="B" id="1">B</option>
+                                <option value="C" id="1">C</option>
+                                <option value="D" id="1">D</option>
+                            </InputSelect>
+                            <ValidationMessage For="()=>ProductPrices.Condition" />
+                        </div>
+                        <div class="form-group col-3 pt-2">
+                            <label>Quantity</label>
+                            <InputNumber @bind-Value="ProductPrices.Quantity" class="form-control"></InputNumber>
+                            <ValidationMessage For="()=>ProductPrices.Quantity" />
+                        </div>
+                        <div class="form-group col-3 pt-2">
+                            <label>Premium Price $$$</label>
+                            <InputNumber @bind-Value="ProductPrices.PriceAdd" class="form-control"></InputNumber>
+                            <ValidationMessage For="()=>ProductPrices.PriceAdd" />
+                        </div>
+
+                    </div>
+
+            }
+        
+        <div class="row pt-3">
+            <div class="col-6 mb-3">
+                <button class="btn btn-primary" @onclick="UpsertProductPremium">@Title</button>
+                <NavLink href="@($"/product/price/{Product.ProductId}")" class="btn btn-secondary">
+                    <span class="oi oi-arrow-left" aria-hidden="true" />
+                    Back to Index
+                </NavLink>
+            </div>
+        </div>
+                </EditForm>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; } = 0;
+    [Parameter]
+    public int ProductId { get; set; } = 0;
+
+    public string Title { get; set; } = "Create";
+    public bool IsLoading { get; set; } = true;
+    public ProductDTO Product { get; set; }
+    public IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
+    public ProductPremiumDTO ProductPrices { get; set; } 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (Id != 0)
+            {
+
+                IsLoading = true;
+                Title = "Update";
+                StateHasChanged();
+                ProductPrices = await _ProductPremiumrepository.GetById(Id);
+                Product = await _ProductRepository.GetById(ProductPrices.ProductId);
+                IsLoading = false;
+                StateHasChanged();
+            }
+            if (ProductId != 0)
+            {
+                Title = "Create";
+                IsLoading = true;
+                StateHasChanged();
+                Product = await _ProductRepository.GetById(ProductId);
+                ProductPrices = new()
+                    {
+                        ProductId = Product.ProductId
+
+                    };
+                IsLoading = false;
+                StateHasChanged();
+            }
+
+        }
+    }
+    public async void UpsertProductPremium()
+    {
+        if (Product.ProductId != 0)
+        {
+            if (ProductPrices.Id != 0)
+            {
+                ProductPrices.Price = ProductPrices.PriceAdd;
+                await _ProductPremiumrepository.Update(ProductPrices);
+                snackbar.Add("Success");
+                _Navigation.NavigateTo($"/product/price/{Product.ProductId}");
+            }
+            else
+            {
+                ProductPrices.Price = ProductPrices.PriceAdd;
+                await _ProductPremiumrepository.Create(ProductPrices);
+                _Navigation.NavigateTo($"/product/price/{Product.ProductId}");
+            }
+        }
+
+    }
+}

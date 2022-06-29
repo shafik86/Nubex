@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Nubex_Models
@@ -17,9 +18,11 @@ namespace Nubex_Models
         [Required]
         public string Condition { get; set; }
         public double PriceAdd { get; set; } = 0;
-        public double? Price { get; set; }
+        public double? Price { get; set; } = 0;
         public int Quantity { get; set; } = 0;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string? CreateBy { get; set; }
+
+        public ProductDTO Product { get; set; }
     }
 }

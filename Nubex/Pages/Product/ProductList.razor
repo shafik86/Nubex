@@ -26,8 +26,8 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Shop Favorites</th>
-                        <th>Customer Favorites</th>
+                        <th>SKU</th>
+                        <th>Purify</th>
                         <th>Category</th>
                         <th>Actions</th>
                     </tr>
@@ -38,7 +38,7 @@
                         <tr>
                             <td><img src="@item.Image1" class="img-thumbnail rounded-5" style="max-height:250px;min-block-size:fit-content;max-width:250px;"></td>
                             <td>@item.ProductName</td>
-                            <th>@item.Description</th>
+                            <th>@((MarkupString)item.Description)</th>
                             <td>@item.ProductSKU</td>
                             <td>@item.Purify</td>
                             <td>@item.Category.Name</td>
@@ -64,11 +64,9 @@
             @if (IsLoading)
             {
                 //loading
-                <div class="col-12">
-                    <progress class="progress-bar-animated w-100">
-                        Loading in progress
-                    </progress>
-                </div>
+                
+                    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                
             }
             else
             {

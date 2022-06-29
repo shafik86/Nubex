@@ -15,16 +15,19 @@ namespace Nubex_Models
         [Required]
         public string? ProductSKU { get; set; }
         [Required]
-        public string? ProductName { get; set; }
+        [MinLength(1,ErrorMessage ="Name must be over than 3 char!")]
+        public string ProductName { get; set; }
         public string? Description { get; set; }
         public string? Detail { get; set; }
         [Required]
         public double MetalWeight { get; set; }
         public string? MetalBrand { get; set; }
+        [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]
         public int CategoryId { get; set; }
         public CategoryDTO Category { get; set; }
         public bool IsHighlighted { get; set; }
+
         public double Weight { get; set; }
         public double Purify { get; set; }
         public string? Manufacture { get; set; }

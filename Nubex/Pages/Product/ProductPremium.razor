@@ -9,16 +9,11 @@
         <h3 class="card-title text-primary mb-3 ml-3">Product Premium Management</h3>
     </div>
     <div class=" col-2  offset-4  align-content-end">
-        <a href="/product/price/create" class="btn btn-primary form-control" style="width:100%;">Add New Premium</a>
+        <a href="@($"product/price/Create/{Product.ProductId}")" class="btn btn-primary form-control" style="width:100%;">Add New Premium</a>
     </div>
     @if (IsLoading)
     {
         //loading
-        <div class="col-12">
-            <progress class="progress-bar-animated w-100">
-                Loading in progress
-            </progress>
-        </div>
     }
     else
     {
@@ -30,6 +25,7 @@
                         <th>Product Name</th>
                         <th>SKU</th>
                         <th>Condition</th>
+                        <th>Quantity</th>
                         <th>Premium Price</th>
                         <th>Actions</th>
                     </tr>
@@ -44,10 +40,11 @@
                             <td>@Product.ProductName</td>
                             <td>@Product.ProductSKU</td>
                             <td>@item.Condition</td>
+                            <td>@item.Quantity</td>
                             <td>@item.PriceAdd</td>
                             <td>
 
-                                <NavLink href="@($"product/price/edit/{item.ProductId}")" class="btn btn-primary rounded-2">
+                                <NavLink href="@($"product/price/edit/{item.Id}")" class="btn btn-primary rounded-2">
                                     <span class="oi oi-pencil" aria-hidden="true" />
                                 </NavLink>
                                 <NavLink @onclick="()=>HandleDelete(item.Id)" class="btn btn-danger rounded-2">
@@ -60,6 +57,15 @@
                 </tbody>
             </table>
         </div>
+
+        <SfGrid DataSource="@ProductPrices" AllowPaging="true">
+            <GridPageSettings PageSize="5"></GridPageSettings>
+            <GridColumns>
+                <GridColumn Field=@nameof(ProductPremiumDTO.Quantity) HeaderText="Customer Name" Width="150"></GridColumn>
+                <GridColumn Field=@nameof(ProductPremiumDTO.Condition) HeaderText="Condition" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                <GridColumn Field=@nameof(ProductPremiumDTO.PriceAdd) HeaderText="Price" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+            </GridColumns>
+        </SfGrid>
     }
 
 </div>

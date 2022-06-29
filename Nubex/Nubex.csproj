@@ -25,6 +25,7 @@
     </PackageReference>
     <PackageReference Include="MudBlazor" Version="6.0.10" />
     <PackageReference Include="Syncfusion.Blazor.Cards" Version="20.1.0.61" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="20.1.0.61" />
     <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="20.1.0.61" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.1.0.61" />
   </ItemGroup>
