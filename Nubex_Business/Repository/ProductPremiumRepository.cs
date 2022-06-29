@@ -21,11 +21,18 @@ namespace Nubex_Business.Repository
         public async Task<ProductPremiumDTO> Create(ProductPremiumDTO objDTO)
         {
             var product = _mapper.Map<ProductPremiumDTO, ProductPremium>(objDTO);
-            
+            try
+            {
             var obj = applicationDbContext.ProductPremiums.Add(product);
             await applicationDbContext.SaveChangesAsync();
 
             return _mapper.Map<ProductPremium, ProductPremiumDTO>(obj.Entity);
+        }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
 
         public async Task<int> Delete(int id)
@@ -40,12 +47,12 @@ namespace Nubex_Business.Repository
 
         }
 
-        public async Task<IEnumerable<ProductPremiumDTO>> GetAll(int? id=null)
+        public async Task<IEnumerable<ProductPremiumDTO>> GetAll(int? id = null)
         {
-            if (id!=null && id>0)
+            if (id != null && id > 0)
             {
                 return _mapper.Map<IEnumerable<ProductPremium>, IEnumerable<ProductPremiumDTO>>
-                    (applicationDbContext.ProductPremiums.Where(p=> p.ProductId == id));
+                    (applicationDbContext.ProductPremiums.Where(p => p.ProductId == id));
             }
             else
             {
@@ -70,8 +77,9 @@ namespace Nubex_Business.Repository
             if (result != null)
             {
                 result.Price = ProductPremiumDTO.Price;
-                //result.Size = ProductPremiumDTO.Size;
-                result.Id = ProductPremiumDTO.Id;
+                result.PriceAdd = ProductPremiumDTO.PriceAdd;
+                result.Quantity = ProductPremiumDTO.Quantity;
+                result.Condition = ProductPremiumDTO.Condition;
                 applicationDbContext.Update(result);
                 applicationDbContext.SaveChanges();
                 return _mapper.Map<ProductPremium, ProductPremiumDTO>(result);

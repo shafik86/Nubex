@@ -1,4 +1,156 @@
-﻿<h3>ProductDetails</h3>
+﻿@page "/Product/Detail"
+@inject IProductRepository productRepository
+@inject ICategoryRepository categoryRepository
+@inject NavigationManager _navigation
+@inject IFileUpload _fileUpload
+@inject IJSRuntime jsRuntime
+
+@*<div class="container-fluid">
+    <div class="row">
+        <img style="height:450px; width:450px;" src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" />
+        <img class="rounded" style="height:100px; width:100px;" src="images/default.jpg" />
+        <img class="rounded" style="height:100px; width:100px;" src="images/default.jpg" />
+        <img class="rounded" style="height:100px; width:100px;" src="images/default.jpg" />
+    </div>
+    <div class="border col-3">
+        <h2>Product Name</h2>
+        <h3>Product Condition</h3>
+        <div>
+            <button class="btn btn-success"><span class="oi oi-cart"></span> Add to cart</button>
+            <button class="btn btn-success"><span class="oi oi-cart"></span> Buy Now</button>
+        </div>
+    </div>
+</div>*@
+
+@*<div class="container border">
+    <div class="row">
+        <div class="col-7">
+            <img style="height:400px; width:400px;" src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" />
+            <img class="rounded" style="height:100px; width:100px;" src="images/default.jpg" />
+            <img class="rounded" style="height:100px; width:100px;" src="images/default.jpg" />
+            <img class="rounded" style="height:100px; width:100px;" src="images/default.jpg" />
+        </div>
+        <div class="col-5">
+            <h2>Product Name</h2>
+            <h3>Product Condition</h3>
+            <div>
+                <button class="btn btn-success"><span class="oi oi-cart"></span> Add to cart</button>
+                <button class="btn btn-success"><span class="oi oi-cart"></span> Buy Now</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<style>
+    .hor-scroll {
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+        .hor-scroll img {
+            display: inline-block;
+        }
+</style>
+
+@*<div class="container">
+    <div class="row">
+        <div class="left_content col-lg-8 col-sm-12">
+            <div class="row">
+                <div class="news_report col-lg-6 col-sm-6">
+                    <img class="img-fluid" style="height:auto; width:400px;" src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" />
+                    <div class="hor-scroll">
+                        <img class="rounded img-fluid" style="height:100px; width:100px;" src="images/default.jpg" />
+                        <img class="rounded img-fluid" style="height:100px; width:100px;" src="images/default.jpg" />
+                        <img class="rounded img-fluid" style="height:100px; width:100px;" src="images/default.jpg" />
+                    </div>
+                </div>
+
+                <div class="news_report col-lg-6 col-sm-6">
+                    <h2>Product Name</h2>
+                    <h3>Product Condition</h3>
+                    <div>
+                        <button class="btn btn-success"><span class="oi oi-cart"></span> Add to cart</button>
+                        <button class="btn btn-success"><span class="oi oi-cart"></span> Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+        <div class="row wow fadeIn">
+            <div class="col-md-6 mb-4">
+                <img src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="p-4">
+                    <h2 class="font-bold">PAMP SUISSE CAST BAR</h2>
+                    <p class="fw-bold">SKU: GB9999-50g-PS-CB_NC-AA</p>
+                    <div class="mb-3">
+                        <a href="">
+                            <span class="badge purple mr-1">A+</span>
+                        </a>
+                        <a href="">
+                            <span class="badge blue mr-1">A</span>
+                        </a>
+                        <a href="">
+                            <span class="badge red mr-1">B+</span>
+                        </a>
+                    </div>
+                    <p class="lead">
+                        <span class="mr-1">
+                            <del>MYR 13,500</del>
+                        </span>
+                    </p>
+
+                    <p>
+                        <span>MYR 13,000</span>
+                    </p>
+
+                    <p>
+                        <button type="button" class="btn btn-dark btn-sm">A+</button>
+                        <button type="button" class="btn btn-dark btn-sm">A</button>
+                        <button type="button" class="btn btn-dark btn-sm">B</button>
+                        <button type="button" class="btn btn-dark btn-sm">C</button>
+                        <button type="button" class="btn btn-dark btn-sm">D</button>
+                    </p>
+                    <p class="lead">10 In Stock</p>
+                    <form class="d-flex justify-content-left">
+                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 80px">
+                        
+                        
+                    </form>
+                    <br />
+                    <button class="btn btn-dark btn-md my-0 p" type="submit">
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row d-flex justify-content-center wow fadeIn">
+            <div class="col-md-6 text-center">
+                <h4 class="my-4 h4 fw-bold">Additional Information</h4>
+                <p>
+                    Perfect for a medium and large scale investor, this brand new 50g of 999.9 gold cast bar is refined to perfection by PAMP. it is shipped with an assay certificate signed by a certified assayer.
+                </p>
+            </div>
+        </div>
+        <div class="row wow fadeIn">
+            <div class="col-lg-4 col-md-12 mb-4">
+                <img src="images/default.jpg" class="rounded img-fluid" alt="">
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <img src="images/default.jpg" class="rounded img-fluid" alt="">
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <img src="images/default.jpg" class="rounded img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+</main>
 
 @code {
 
