@@ -22,17 +22,17 @@ namespace Nubex_Business.Repository
             var product = _mapper.Map<ProductDTO, Product>(objDTO);
             try
             {
-            var obj = DbContext.Products.Add(product);
-            await DbContext.SaveChangesAsync();
+                var obj = DbContext.Products.Add(product);
+                await DbContext.SaveChangesAsync();
 
-            return _mapper.Map<Product, ProductDTO>(obj.Entity);
-        }
+                return _mapper.Map<Product, ProductDTO>(obj.Entity);
+            }
             catch (Exception)
             {
 
                 return null;
             }
-            
+
 
         }
 
@@ -49,16 +49,25 @@ namespace Nubex_Business.Repository
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(c => c.Category).Include(u => u.ProductPrices));
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(c => c.Category));
         }
 
         public async Task<ProductDTO> GetById(int id)
         {
-            var result = await DbContext.Products.Include(c => c.Category).Include(u => u.ProductPrices).FirstOrDefaultAsync(c => c.ProductId == id);
-            if (result != null)
+            try
             {
-                return _mapper.Map<Product, ProductDTO>(result);
+                var result = await DbContext.Products.Include(c => c.Category).FirstOrDefaultAsync(c => c.ProductId == id);
+                if (result != null)
+                {
+                    return _mapper.Map<Product, ProductDTO>(result);
+                }
             }
+            catch (Exception)
+            {
+
+                return new ProductDTO();
+            }
+
             return new ProductDTO();
         }
 

@@ -50,6 +50,6 @@ namespace Nubex_Models
         [Range(1, int.MaxValue, ErrorMessage = "Please select a category")]
         public int CategoryId { get; set; }
         public CategoryDTO Category { get; set; }
-        public ICollection<ProductPremiumDTO> ProductPrices { get; set; }
+        //public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; }
     }
 }

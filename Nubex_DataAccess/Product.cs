@@ -44,7 +44,7 @@ namespace Nubex_DataAccess
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
-        public ICollection<ProductPremium> ProductPrices { get; set; }
+        //public IEnumerable<ProductPremium> ProductPrices { get; set; }
 
     }
 }

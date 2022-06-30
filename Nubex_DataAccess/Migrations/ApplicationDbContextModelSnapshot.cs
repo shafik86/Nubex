@@ -39,7 +39,7 @@ namespace Nubex_DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Nubex_DataAccess.Product", b =>
@@ -137,7 +137,7 @@ namespace Nubex_DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Nubex_DataAccess.ProductPremium", b =>
@@ -174,7 +174,7 @@ namespace Nubex_DataAccess.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductPremiums");
+                    b.ToTable("ProductPremiums", (string)null);
                 });
 
             modelBuilder.Entity("Nubex_DataAccess.Product", b =>
