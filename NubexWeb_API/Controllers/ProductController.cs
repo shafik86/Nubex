@@ -23,15 +23,28 @@ namespace NubexWeb_API.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<ActionResult<ProductDTO>> Get(int productId)
+        public async Task<IActionResult> Get(int? productId)
         {
-            var result = await _productRepository.GetById(productId);
-            if (result == null)
+            if (productId == null || productId == 0)
             {
-                return NotFound($"Product id : {productId} is not found");
+                return BadRequest(new ErrorModelDTO()
+                {
+                    ErrorMessage = "Invalid Id",
+                    StatusCode = StatusCodes.Status400BadRequest
+                });
             }
-            return Ok(result);
 
+            var product = await _productRepository.GetById(productId.Value);
+            if (product == null)
+            {
+                return BadRequest(new ErrorModelDTO()
+                {
+                    ErrorMessage = "Invalid Id",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+
+            return Ok(product);
         }
 
 

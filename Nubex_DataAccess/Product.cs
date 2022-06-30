@@ -19,9 +19,6 @@ namespace Nubex_DataAccess
         public string? Detail { get; set; }
         public double MetalWeight { get; set; }
         public string? MetalBrand { get; set; }
-        public int CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
         public bool IsHighlighted { get; set; }
         public double Weight { get; set; }
         public double Purify { get; set; }
@@ -44,7 +41,10 @@ namespace Nubex_DataAccess
         public string CreatedBy { get; set; } = "Administrators";
         public DateTime? ModifiedOn { get; set; }
         public string? ModifiedBy { get; set; } = "Admin";
-        //public ICollection<ProductPremium> ProductPrices { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        public ICollection<ProductPremium> ProductPrices { get; set; }
 
     }
 }
