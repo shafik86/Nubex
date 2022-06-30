@@ -4,7 +4,9 @@
 @inject IProductRepository _ProductRepository
 @inject IProductPremiumRepository _ProductPremiumrepository
 @inject NavigationManager _Navigation
-@inject ISnackbar snackbar
+
+@inject IJSRuntime jsruntimne
+
 <div class="row mt-4">
     <div class="col-6">
         <h3 class="card-title text-primary mb-3 ml-3">@Title Premium Price</h3>
@@ -52,14 +54,14 @@
                             <ValidationMessage For="()=>ProductPrices.Condition" />
                         </div>
                         <div class="form-group col-3 pt-2">
-                            <label>Quantity</label>
-                            <InputNumber @bind-Value="ProductPrices.Quantity" class="form-control"></InputNumber>
-                            <ValidationMessage For="()=>ProductPrices.Quantity" />
-                        </div>
-                        <div class="form-group col-3 pt-2">
                             <label>Premium Price $$$</label>
                             <InputNumber @bind-Value="ProductPrices.PriceAdd" class="form-control"></InputNumber>
                             <ValidationMessage For="()=>ProductPrices.PriceAdd" />
+                        </div>
+                        <div class="form-group col-3 pt-2">
+                            <label>Quantity</label>
+                            <InputNumber @bind-Value="ProductPrices.Quantity" class="form-control"></InputNumber>
+                            <ValidationMessage For="()=>ProductPrices.Quantity" />
                         </div>
 
                     </div>
@@ -104,6 +106,7 @@
                 StateHasChanged();
                 ProductPrices = await _ProductPremiumrepository.GetById(Id);
                 Product = await _ProductRepository.GetById(ProductPrices.ProductId);
+
                 IsLoading = false;
                 StateHasChanged();
             }
@@ -126,22 +129,22 @@
     }
     public async void UpsertProductPremium()
     {
-        if (Product.ProductId != 0)
-        {
+        
             if (ProductPrices.Id != 0)
             {
                 ProductPrices.Price = ProductPrices.PriceAdd;
                 await _ProductPremiumrepository.Update(ProductPrices);
-                snackbar.Add("Success");
+                jsruntimne.ToastrSuccess($"Price for Condition {ProductPrices.Condition} successful updated");
                 _Navigation.NavigateTo($"/product/price/{Product.ProductId}");
             }
             else
             {
                 ProductPrices.Price = ProductPrices.PriceAdd;
                 await _ProductPremiumrepository.Create(ProductPrices);
+                jsruntimne.ToastrSuccess($"Price for Condition {ProductPrices.Condition} successful Added");
                 _Navigation.NavigateTo($"/product/price/{Product.ProductId}");
             }
-        }
+        
 
     }
 }

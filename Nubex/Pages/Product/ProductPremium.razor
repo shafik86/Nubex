@@ -17,39 +17,43 @@
     }
     else
     {
-        <div class="col-12 p-3">
-            <table class="table table-bordered">
+        <div class="container-md border col-12 pt-3 mb-2">
+            <div class="row">
+                <div class="col-3">
+                    <img src="@Product.Image1" class="mb-3" style="width:150px;height:150px;" />
+                </div>
+                <div class="col-6">
+                    <h3>@Product.ProductName</h3>
+                    <h5># @Product.ProductSKU</h5>
+                    <p>@Product.Category.Name</p>
+                    <p>@((MarkupString)Product.Description)</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-md border col-12 pt-3 mb-2">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th>Image</th>
-                        <th>Product Name</th>
-                        <th>SKU</th>
-                        <th>Condition</th>
-                        <th>Quantity</th>
+                        <th>Conditions</th>
                         <th>Premium Price</th>
+                        <th>Quantity</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in ProductPrices)
                     {
-
-
                         <tr>
-                            <td><img src="@Product.Image1" class="w-25" /> </td>
-                            <td>@Product.ProductName</td>
-                            <td>@Product.ProductSKU</td>
                             <td>@item.Condition</td>
-                            <td>@item.Quantity</td>
                             <td>@item.PriceAdd</td>
+                            <td>@item.Quantity</td>
                             <td>
-
                                 <NavLink href="@($"product/price/edit/{item.Id}")" class="btn btn-primary rounded-2">
                                     <span class="oi oi-pencil" aria-hidden="true" />
                                 </NavLink>
                                 <NavLink @onclick="()=>HandleDelete(item.Id)" class="btn btn-danger rounded-2">
                                     <span class="oi oi-x" aria-hidden="true" />
-
+                                    
                                 </NavLink>
                             </td>
                         </tr>
@@ -57,15 +61,30 @@
                 </tbody>
             </table>
         </div>
-
-        <SfGrid DataSource="@ProductPrices" AllowPaging="true">
+        @*<div class="container-md border col-12 pt-3 mb-2">
+            <SfGrid @ref="productPriceGrid" DataSource="@ProductPrices" AllowPaging="true"
+            Toolbar="@(new List<string>{"Add","Edit","Update","Delete","Cancel"})">
             <GridPageSettings PageSize="5"></GridPageSettings>
+            <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" ShowDeleteConfirmDialog="true"></GridEditSettings>
+            <GridEvents OnActionBegin="ActionHandler" TValue="ProductPremiumDTO"></GridEvents>
             <GridColumns>
-                <GridColumn Field=@nameof(ProductPremiumDTO.Quantity) HeaderText="Customer Name" Width="150"></GridColumn>
-                <GridColumn Field=@nameof(ProductPremiumDTO.Condition) HeaderText="Condition" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
-                <GridColumn Field=@nameof(ProductPremiumDTO.PriceAdd) HeaderText="Price" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+            <GridColumn Field=@nameof(ProductPremiumDTO.Id) HeaderText="ID" ></GridColumn>
+            <GridColumn Field=@nameof(ProductPremiumDTO.Quantity) HeaderText="Quantity" ></GridColumn>
+            <GridColumn Field=@nameof(ProductPremiumDTO.Condition) HeaderText="Condition" >
+            <EditTemplate>
+            <Syncfusion.Blazor.DropDowns.SfDropDownList DataSource="SizeList" TItem="string" TValue="string" @bind-Value="((context as ProductPremiumDTO).Condition)"></Syncfusion.Blazor.DropDowns.SfDropDownList>
+            </EditTemplate>
+            </GridColumn>
+            <GridColumn Field=@nameof(ProductPremiumDTO.PriceAdd) HeaderText="Price" Format="C2" ></GridColumn>
             </GridColumns>
-        </SfGrid>
+            </SfGrid>
+            </div>
+            <div>
+            <NavLink href="Product" class="btn btn-secondary">
+            <span class="oi oi-arrow-left" aria-hidden="true" />
+            Back to Index
+            </NavLink>
+            </div>*@
     }
 
 </div>
@@ -76,6 +95,11 @@
     public ProductDTO Product { get; set; } = new();
     public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; } = new List<ProductPremiumDTO>();
     public bool IsLoading { get; set; } = true;
+    //public SfGrid<ProductPremiumDTO> productPriceGrid { get; set; }
+    //IEnumerable<String> SizeList = new List<String>()
+    //{
+    //    "A+", "A","B+","B","C","D"
+    //};
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -83,13 +107,30 @@
         {
             IsLoading = true;
             StateHasChanged();
-            Product = await _ProductRepository.GetById(Id);
             ProductPrices = await _productPremiumRepository.GetAll(Id);
+            Product = await _ProductRepository.GetById(Id);
             IsLoading = false;
             StateHasChanged();
         }
     }
+    //public async void ActionHandler(ActionEventArgs<ProductPremiumDTO> args)
+    //{
+    //    if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
+    //    {
+    //        args.Data.ProductId = Id;
+    //        if (args.Action=="Add")
+    //        {
+    //            await _productPremiumRepository.Create(args.Data);
+    //            ProductPrices = await _productPremiumRepository.GetAll(Id);
+    //            productPriceGrid.Refresh();
+    //        }
 
+    //        if (args.Action=="Edit")
+    //        {
+    //            productPriceGrid.Refresh();
+    //        }
+    //    }
+    //}
     private async void HandleDelete(int id)
     {
 
