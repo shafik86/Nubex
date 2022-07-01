@@ -6,6 +6,7 @@
 @inject NavigationManager _navigation
 @inject IFileUpload _fileUpload
 @*<_DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>*@
+
 <div class="row mt-4">
     <div class="col-6">
 
@@ -49,9 +50,9 @@
                                 <NavLink href="@($"product/price/{item.ProductId}")" class="btn btn-primary rounded-2">
                                     <span class="oi oi-dollar" aria-hidden="true" />
                                 </NavLink>
+
                                 <button @onclick="()=>HandleDelete(item.ProductId)" class="btn btn-danger rounded-2">
                                     <span class="oi oi-x" aria-hidden="true" />
-                                    
                                 </button>
                             </td>
                         </tr>
@@ -64,9 +65,9 @@
             @if (IsLoading)
             {
                 //loading
-                
-                    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
-                
+
+                <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+
             }
             else
             {
@@ -101,7 +102,7 @@
     //{
     //    DeleteId = id;
     //    //r result = jsruntimne.InvokeVoidAsync("ShowDeleteConfirmationModal");
-    //    //var result =  
+    //    //var result =
     //    //if(jsruntimne.InvokeVoidAsync("ShowSwal","delete",DeleteId).IsCompleted)
     //    //{
     //    //    ConfirmDelete_Click(true);
@@ -118,13 +119,13 @@
     //}
     private void HandleDelete(int id)
     {
-        DeleteProductId=id;
+        DeleteProductId = id;
         _jsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
     }
     public async Task ConfirmDelete_Click(bool isConfirmed)
     {
-        IsLoading=true;
-        if(isConfirmed && DeleteProductId!=0)
+        IsLoading = true;
+        if (isConfirmed && DeleteProductId != 0)
         {
             //delete
             ProductDTO product = await productRepository.GetById(DeleteProductId);
@@ -138,6 +139,6 @@
             await LoadItem();
             await _jsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
         }
-        IsLoading=false;
+        IsLoading = false;
     }
 }
