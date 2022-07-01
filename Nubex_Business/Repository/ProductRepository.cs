@@ -49,7 +49,7 @@ namespace Nubex_Business.Repository
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            var result= _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(u => u.Category));
+            var result= _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(u => u.Category).Include(c=>c.ProductPrices));
             return result;
         }
 

@@ -1,7 +1,7 @@
 ﻿@page "/Product/Detail/{Id:int}"
 @page "/Product/Detail"
 @inject IProductService _ProductService
-@inject IProductPremiumService _ProductPremiumService
+
 @inject IJSRuntime jsRuntime
 
 <style>
@@ -46,8 +46,9 @@
                         <span>@Prices.ToString("c")</span>
                     </p>
 
-                        
+
                     <p>
+                        
                         <button type="button" class="btn btn-dark btn-sm">A+</button>
                         <button type="button" class="btn btn-dark btn-sm">A</button>
                         <button type="button" class="btn btn-dark btn-sm">B</button>
@@ -102,6 +103,7 @@
     {
         IsLoading = true;
         Product = await _ProductService.GetById(Id);
+        ProductPrices = Product.ProductPrices;
         StateHasChanged();
         IsLoading = false;
         StateHasChanged();
