@@ -1,63 +1,99 @@
 ﻿@page "/"
+@inject IProductService _productService
 
 <PageTitle>Home</PageTitle>
+@if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/ajax-loader.gif" />
+    </div>
+}
+else
+{
 
-<div class="row pt-4 p-3 mb-2">
-    <div class="col-lg-12 border">
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="images/carousel/banner-custom-mint_1.jpg" class="d-block w-100" alt="...">
+
+    <div class="row pt-4 p-3 mb-2">
+        <div class="col-lg-12 border">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="images/carousel/banner-custom-mint_1.jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/carousel/banner-largest-producer.jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/carousel/banner-metals.jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="images/carousel/nusagold.png" class="d-block w-100" alt="...">
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="images/carousel/banner-largest-producer.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="images/carousel/banner-metals.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="images/carousel/nusagold.png" class="d-block w-100" alt="...">
-                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </div>
-</div>
-<div class="row pt-4 p-3 mb-2">
-    <div class="pt-3 mb-2">
+    <div class="row pt-4 p-3 mb-2">
+        <div class="pt-3 mb-2">
 
-        <center><h3>Product Highlight </h3></center>
+            <center><h3>Product Highlight </h3></center>
+        </div>
     </div>
-</div>
-<div class="row pt-4 p-3 mb-2">
-    <div class="col-lg-12 border">
+    <hr class="w-100" />
+    <div class="row pt-4 m-2">
+        <div class="row col-md-12  p-3">
+            @foreach (var item in Products)
+            {
+                
+            
+                <div class="col-3 p-3 ">
+                    <div class="card" style="width: 18rem;">
+                        <img src="@item.Image1" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.ProductName</h5>
+                            <p class="card-text">@((MarkupString)item.Description)</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+           
+                
+            }
+        </div>
     </div>
-</div>
-<hr class="w-100" />
-<hr class="w-100" />
+    <hr class="w-100" />
 
-<center><h3 class="justify-content-center">Latest Product Added</h3></center>
-<hr />
-<div class="row pt-4 p-3 mb-2">
-    <div class="col-lg-12 border">
-        Latest Product here
+    <center><h3 class="justify-content-center">Latest Product Added</h3></center>
+    <hr />
+    <div class="row pt-4 p-3 mb-2">
+        <div class="col-lg-12 border">
+            Latest Product here
+        </div>
     </div>
-</div>
-
+}
 @*<script type="text/javascript">
-var myCarousel = document.querySelector('#myCarousel')
-var carousel = new bootstrap.Carousel(myCarousel, {
-  interval: 2000,
-  wrap: false
-})
-</script>*@
+    var myCarousel = document.querySelector('#myCarousel')
+    var carousel = new bootstrap.Carousel(myCarousel, {
+    interval: 2000,
+    wrap: false
+    })
+    </script>*@
 @code {
+    public bool IsProcessing { get; set; } = false;
+    public IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing = true;
+        var result = await _productService.GetAll();
+        Products = result.Where(p => p.IsHighlighted == true);
+        IsProcessing = false;
+    }
 }

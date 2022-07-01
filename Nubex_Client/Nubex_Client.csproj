@@ -14,4 +14,8 @@
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.2.0.36" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Nubex_Models\Nubex_Models.csproj" />
+  </ItemGroup>
+
 </Project>
