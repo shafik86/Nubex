@@ -10,7 +10,7 @@ namespace Nubex_DataAccess
 {
     public class ProductPremium
     {
-        [Key]
+        
         public int Id { get; set; }
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
@@ -20,6 +20,6 @@ namespace Nubex_DataAccess
         public double? Price { get; set; }
         public int Quantity { get; set; }
         public DateTime CreatedOn { get; set; }=DateTime.Now;
-        public string? CreateBy { get; set; }
+        public string? CreateBy { get; set; } = "Admin";
     }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/Product/Detail/{Id:int}"
 @page "/Product/Detail"
-@inject IProductRepository _ProductRepository
-@inject IProductPremiumRepository _productPremiumRepository
+@inject IProductService _ProductService
+@inject IProductPremiumService _ProductPremiumService
 @inject IJSRuntime jsRuntime
 
 <style>
@@ -19,12 +19,12 @@
     <div class="container dark-grey-text mt-5">
         <div class="row wow fadeIn">
             <div class="col-md-6 mb-4">
-                <img src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" class="img-fluid" alt="">
+                <img src="@Product.Image1" class="img-fluid" alt="">
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-4">
                     <h2 class="font-bold">@Product.ProductName</h2>
-                    <p class="fw-bold">SKU: GB9999-50g-PS-CB_NC-AA</p>
+                    <p class="fw-bold">SKU: @Product.ProductSKU</p>
                     <div class="mb-3">
                         <a href="">
                             <span class="badge purple mr-1">A+</span>
@@ -38,18 +38,15 @@
                     </div>
                     <p class="lead">
                         <span class="mr-1">
-                            <del>MYR 13,500</del>
+                            <del>@Prices.ToString("c")</del>
                         </span>
                     </p>
 
                     <p>
-                        <span>MYR 13,000</span>
+                        <span>@Prices.ToString("c")</span>
                     </p>
 
-                        @*@foreach (var item in ProductPrices)
-                        {
-                            <p>@item.Condition</p>
-                        }*@
+                        
                     <p>
                         <button type="button" class="btn btn-dark btn-sm">A+</button>
                         <button type="button" class="btn btn-dark btn-sm">A</button>
@@ -98,18 +95,16 @@
     public int Id { get; set; }
     public ProductDTO Product { get; set; } = new();
     public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; }
+    public double Prices { get; set; } = 10000;
     public bool IsLoading { get; set; }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            IsLoading = true;
-            StateHasChanged();
-            ProductPrices = await _productPremiumRepository.GetAll(Id);
-            Product = await _ProductRepository.GetById(Id);
-            IsLoading = false;
-            StateHasChanged();
-        }
+        IsLoading = true;
+        Product = await _ProductService.GetById(Id);
+        StateHasChanged();
+        IsLoading = false;
+        StateHasChanged();
     }
+
 }

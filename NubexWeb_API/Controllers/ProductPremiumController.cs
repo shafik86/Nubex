@@ -7,25 +7,25 @@ namespace NubexWeb_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class ProductPremiumController : Controller
     {
-        public IProductRepository _productRepository { get; }
-        public ProductController(IProductRepository productRepository)
+        public IProductPremiumRepository _productPremiumRepository { get; }
+        public ProductPremiumController(IProductPremiumRepository productPremiumRepository)
         {
-            _productRepository = productRepository;
+            _productPremiumRepository = productPremiumRepository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("all/{Id}")]
+        public async Task<IActionResult> GetAll(int? Id)
         {
-            var result = await _productRepository.GetAll();
+            var result = await _productPremiumRepository.GetAll(Id);
             return Ok(result);
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> Get(int? productId)
+        public async Task<IActionResult> Get(int? Id)
         {
-            if (productId == null || productId == 0)
+            if (Id == null || Id == 0)
             {
                 return BadRequest(new ErrorModelDTO()
                 {
@@ -34,7 +34,7 @@ namespace NubexWeb_API.Controllers
                 });
             }
 
-            var product = await _productRepository.GetById(productId.Value);
+            var product = await _productPremiumRepository.GetById(Id.Value);
             if (product == null)
             {
                 return BadRequest(new ErrorModelDTO()

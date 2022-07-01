@@ -37,14 +37,14 @@ namespace Nubex_DataAccess
         public string? remark_1 { get; set; }
         public string? remark_2 { get; set; }
         public string? remark_3 { get; set; }
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public string CreatedBy { get; set; } = "Administrators";
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
-        public string? ModifiedBy { get; set; } = "Admin";
+        public string? ModifiedBy { get; set; }
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
-        //public IEnumerable<ProductPremium> ProductPrices { get; set; }
+        public ICollection<ProductPremium> ProductPrices { get; set; }
 
     }
 }

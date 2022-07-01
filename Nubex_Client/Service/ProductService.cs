@@ -43,9 +43,9 @@ namespace Nubex_Client.Service
             if (response.IsSuccessStatusCode)
             {
                 var product = JsonConvert.DeserializeObject<ProductDTO>(content);
-                product.Image1 += BaseServerUrl + product.Image1;
-                product.Image2 += BaseServerUrl + product.Image2;
-                product.Image3 += BaseServerUrl + product.Image3;
+                product.Image1 = BaseServerUrl + product.Image1;
+                product.Image2 = BaseServerUrl + product.Image2;
+                product.Image3 = BaseServerUrl + product.Image3;
                 return product;
             }
             else
