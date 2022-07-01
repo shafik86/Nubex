@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nubex_Common", "Nubex_Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nubex_Models", "Nubex_Models\Nubex_Models.csproj", "{619FEA56-C128-4B5A-A5AD-9479B3D21A10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nubex_Client", "Nubex_Client\Nubex_Client.csproj", "{30249F7E-F540-4E40-B0CE-A21AC9912FD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nubex_Client", "Nubex_Client\Nubex_Client.csproj", "{30249F7E-F540-4E40-B0CE-A21AC9912FD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NubexWeb_API", "NubexWeb_API\NubexWeb_API.csproj", "{719AE57E-1E8E-44E0-AD4F-939FCD376CE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NubexWeb_API", "NubexWeb_API\NubexWeb_API.csproj", "{719AE57E-1E8E-44E0-AD4F-939FCD376CE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

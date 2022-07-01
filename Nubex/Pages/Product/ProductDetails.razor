@@ -1,4 +1,5 @@
 ﻿@page "/Product/Detail/{Id:int}"
+@page "/Product/Detail"
 @inject IProductRepository _ProductRepository
 @inject IProductPremiumRepository _productPremiumRepository
 @inject IJSRuntime jsRuntime
@@ -18,15 +19,15 @@
     <div class="container dark-grey-text mt-5">
         <div class="row wow fadeIn">
             <div class="col-md-6 mb-4">
-                <img src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" class="img-fluid" alt="">
+                <img src="@Product.Image1" class="img-fluid" alt="">
             </div>
             <div class="col-md-6 mb-4">
                 <div class="p-4">
                     <h2 class="font-bold">@Product.ProductName</h2>
-                    <p class="fw-bold">SKU: GB9999-50g-PS-CB_NC-AA</p>
-                    <div class="mb-3">
+                    <p class="fw-bold">SKU: @Product.ProductSKU</p>
+@*                    <div class="mb-3">
                         <a href="">
-                            <span class="badge purple mr-1">A+</span>
+                            <span class="badge black">A+</span>
                         </a>
                         <a href="">
                             <span class="badge blue mr-1">A</span>
@@ -34,21 +35,22 @@
                         <a href="">
                             <span class="badge red mr-1">B+</span>
                         </a>
-                    </div>
-                    <p class="lead">
+                    </div>*@
+@*                    <p class="lead">
                         <span class="mr-1">
                             <del>MYR 13,500</del>
                         </span>
+                    </p>*@
+                    <span>Price From</span>
+                    <p class="lead">
+                        
+                        <span>RM</span>
                     </p>
 
-                    <p>
-                        <span>MYR 13,000</span>
-                    </p>
-
-                        @foreach (var item in ProductPrices)
+                        @*@foreach (var item in ProductPrices)
                         {
                             <p>@item.Condition</p>
-                        }
+                        }*@
                     <p>
                         <button type="button" class="btn btn-dark btn-sm">A+</button>
                         <button type="button" class="btn btn-dark btn-sm">A</button>
@@ -56,7 +58,11 @@
                         <button type="button" class="btn btn-dark btn-sm">C</button>
                         <button type="button" class="btn btn-dark btn-sm">D</button>
                     </p>
-                    <p class="lead">10 In Stock</p>
+                    <p class="lead">
+                        <span>
+                            10 In Stock
+                        </span>
+                        </p>
                     <form class="d-flex justify-content-left">
                         <input type="number" value="1" aria-label="Search" class="form-control" style="width: 80px">
 
@@ -74,20 +80,20 @@
             <div class="col-md-6 text-center">
                 <h4 class="my-4 h4 fw-bold">Additional Information</h4>
                 <p>
-                    Perfect for a medium and large scale investor, this brand new 50g of 999.9 gold cast bar is refined to perfection by PAMP. it is shipped with an assay certificate signed by a certified assayer.
+                    @Product.Detail
                 </p>
             </div>
         </div>
         <div class="row wow fadeIn">
             <div class="col-lg-4 col-md-12 mb-4">
-                <img src="images/default.jpg" class="rounded img-fluid" alt="">
+                <img src="@Product.Image2" class="rounded img-fluid" alt="">
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
-                <img src="images/default.jpg" class="rounded img-fluid" alt="">
+                <img src="@Product.Image3" class="rounded img-fluid" alt="">
             </div>
-            <div class="col-lg-4 col-md-6 mb-4">
+@*            <div class="col-lg-4 col-md-6 mb-4">
                 <img src="images/default.jpg" class="rounded img-fluid" alt="">
-            </div>
+            </div>*@
         </div>
     </div>
 </main>
