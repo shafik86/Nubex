@@ -77,13 +77,31 @@ namespace Nubex_Business.Repository
             var result = DbContext.Products.FirstOrDefault(c => c.ProductId == objDTO.ProductId);
             if (result != null)
             {
+                result.ProductSKU = objDTO.ProductSKU;
                 result.ProductName = objDTO.ProductName;
                 result.Description = objDTO.Description;
-                result.Image1 = objDTO.Image1;
-                result.CategoryId = objDTO.CategoryId;
-                result.Color = objDTO.Color;
+                result.Detail = objDTO.Detail;
                 result.MetalWeight = objDTO.MetalWeight;
                 result.MetalBrand = objDTO.MetalBrand;
+                result.IsHighlighted = objDTO.IsHighlighted;
+                result.Weight = objDTO.Weight;
+                result.Purify = objDTO.Purify;
+                result.Manufacture = objDTO.Manufacture;
+                result.Certificate = objDTO.Certificate;
+                result.IsTax = objDTO.IsTax;
+                result.Featured = objDTO.Featured;
+                result.Color = objDTO.Color;
+                result.Size = objDTO.Size;
+                result.ProductTag = objDTO.ProductTag;
+                result.Image1 = objDTO.Image1;
+                result.Image2 = objDTO.Image2;
+                result.Image3 = objDTO.Image3;
+                result.remark_1 = objDTO.remark_1;
+                result.remark_2 = objDTO.remark_2;
+                result.remark_3 = objDTO.remark_3;
+                result.ModifiedOn = DateTime.Now;
+                result.ModifiedBy = objDTO.ModifiedBy;
+                result.CategoryId = objDTO.CategoryId;
 
                 DbContext.Update(result);
                 DbContext.SaveChanges();

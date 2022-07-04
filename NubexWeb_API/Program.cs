@@ -2,7 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Nubex_Business.Repository;
 using Nubex_Business.Repository.IRepository;
 using Nubex_DataAccess.Data;
-
+using Microsoft.Net.Http.Headers;
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,11 +17,25 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductPremiumRepository, ProductPremiumRepository>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); 
-builder.Services.AddCors(o => o.AddPolicy("Nubex", builder =>
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddCors(o =>
 {
-    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-}));
+    o.AddPolicy("Nubex",
+        builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+
+        });
+    o.AddPolicy("PriceApi",
+        policy =>
+        {
+            policy.WithOrigins("https://gold-feed.com/paid",
+                "https://gold-feed.com/paid/d7d6s6d66k4j4658e6d6cds638940e/xmlgold_myr.php")
+            .AllowAnyMethod()
+            .WithHeaders(HeaderNames.ContentType, "text/plain")
+            .AllowAnyOrigin();
+        });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,8 +46,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("Nubex");
+
 app.UseRouting();
+app.UseCors("Nubex");
+app.UseCors("PriceApi");
 app.UseAuthorization();
 
 app.MapControllers();

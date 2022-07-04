@@ -18,15 +18,17 @@ builder.Services.AddSingleton<WeatherForecastService>();
 //## MudBlazor
 builder.Services.AddMudServices();
 //## SyncFusion
-
+builder.Services.AddControllers();
 builder.Services.AddSyncfusionBlazor(options => { options.IgnoreScriptIsolation = true; });
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductPremiumRepository, ProductPremiumRepository>();
+builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<IFileUpload, FileUpload>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddControllers();
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NjU5NTM5QDMyMzAyZTMxMmUzMGpyd1p6cE9sN3JmNU1mamt4d2NDd2c3Z1hGNTA4enNnNWhtbWpWZm53dm89");
 // Configure the HTTP request pipeline.
@@ -38,12 +40,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
 app.Run();
