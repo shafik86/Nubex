@@ -57,7 +57,7 @@ namespace Nubex_Business.Repository
         {
             try
             {
-                var result = await DbContext.Products.Include(u => u.Category).FirstOrDefaultAsync(c => c.ProductId == id);
+                var result = await DbContext.Products.Include(u => u.Category).Include(c => c.ProductPrices).FirstOrDefaultAsync(c => c.ProductId == id);
                 if (result != null)
                 {
                     return _mapper.Map<Product, ProductDTO>(result);

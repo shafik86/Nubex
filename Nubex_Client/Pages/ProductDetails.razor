@@ -1,5 +1,5 @@
-﻿@page "/Product/Detail/{Id:int}"
-@page "/Product/Detail"
+﻿@page "/Product/details/{Id:int}"
+@page "/Product/details"
 @inject IProductService _ProductService
 
 @inject IJSRuntime jsRuntime
@@ -14,7 +14,14 @@
             display: inline-block;
         }
 </style>
-
+@if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/ajax-loader.gif" />
+    </div>
+}
+else
+{
 <main class="mt-5 pt-4">
     <div class="container dark-grey-text mt-5">
         <div class="row wow fadeIn">
@@ -26,15 +33,16 @@
                     <h2 class="font-bold">@Product.ProductName</h2>
                     <p class="fw-bold">SKU: @Product.ProductSKU</p>
                     <div class="mb-3">
-                        <a href="">
+                        
+                        @*<a href="">
                             <span class="badge purple mr-1">A+</span>
-                        </a>
-                        <a href="">
+                            </a>
+                            <a href="">
                             <span class="badge blue mr-1">A</span>
-                        </a>
-                        <a href="">
+                            </a>
+                            <a href="">
                             <span class="badge red mr-1">B+</span>
-                        </a>
+                            </a>*@
                     </div>
                     <p class="lead">
                         <span class="mr-1">
@@ -47,14 +55,16 @@
                     </p>
 
 
-                    <p>
+                    <div class="row">
+
+                        @foreach (var productPrice in Product.ProductPrices)
+                        {
+                            <div class="col-1 bg-light text-center pt-1 m-1" style="border:1px solid #28A745; border-radius:2px;box-shadow:2px">
+                                <p>@productPrice.Condition</p>
+                            </div>
+                        }
                         
-                        <button type="button" class="btn btn-dark btn-sm">A+</button>
-                        <button type="button" class="btn btn-dark btn-sm">A</button>
-                        <button type="button" class="btn btn-dark btn-sm">B</button>
-                        <button type="button" class="btn btn-dark btn-sm">C</button>
-                        <button type="button" class="btn btn-dark btn-sm">D</button>
-                    </p>
+                    </div>
                     <p class="lead">10 In Stock</p>
                     <form class="d-flex justify-content-left">
                         <input type="number" value="1" aria-label="Search" class="form-control" style="width: 80px">
@@ -73,7 +83,7 @@
             <div class="col-md-6 text-center">
                 <h4 class="my-4 h4 fw-bold">Additional Information</h4>
                 <p>
-                    Perfect for a medium and large scale investor, this brand new 50g of 999.9 gold cast bar is refined to perfection by PAMP. it is shipped with an assay certificate signed by a certified assayer.
+                    @((MarkupString)Product.Description)
                 </p>
             </div>
         </div>
@@ -90,22 +100,22 @@
         </div>
     </div>
 </main>
-
+}
 @code {
     [Parameter]
     public int Id { get; set; }
     public ProductDTO Product { get; set; } = new();
     public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; }
     public double Prices { get; set; } = 10000;
-    public bool IsLoading { get; set; }
+    public bool IsProcessing { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
         Product = await _ProductService.GetById(Id);
         ProductPrices = Product.ProductPrices;
         StateHasChanged();
-        IsLoading = false;
+        IsProcessing = false;
         StateHasChanged();
     }
 
