@@ -1,6 +1,7 @@
 ﻿@page "/product/price/{Id:int}"
 @inject IProductRepository _ProductRepository
 @inject IProductPremiumRepository _productPremiumRepository
+@inject IJSRuntime _JsRuntime
 
 
 <div class="row mt-4">
@@ -138,6 +139,12 @@
     //}
     private async void HandleDelete(int id)
     {
-
+        var pricePremium = await _productPremiumRepository.GetById(id);
+        if(id != 0 || id != null)
+        {
+            await _productPremiumRepository.Delete(id);
+            _JsRuntime.ToastrSuccess($"Product Premium for {pricePremium.Condition} is successful deleted");
+            StateHasChanged();
+        }
     }
 }

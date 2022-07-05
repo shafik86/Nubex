@@ -2,8 +2,8 @@
 @inject IJSRuntime _jsRuntime
 @inject ILocalStorageService _localStorage
 @inject IProductService _productService
-@*@inject IPaymentService _paymentService
-@inject IOrderService _orderService*@
+@inject IPaymentService _paymentService
+@inject IOrderService _orderService
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @if (IsProcessing)
@@ -32,7 +32,7 @@ else
                     </div>
                     <div class="col-5 col-md-5 ">
                         <span class="">Product : @prod.ProductName </span><br />
-                        <span class="pt-1">Size : @prod.Size</span><br />
+                        <span class="pt-1">Weight : @prod.Product.Weight</span><br />
                         <span class="pt-1">Count : @prod.Count</span><br />
 
                     </div>
@@ -40,7 +40,7 @@ else
                         <h4 class="text-warning font-weight-bold pt-2">
                             USD
                             <span style="border-bottom:1px solid #ff6a00">
-                                 @((prod.Count * prod.Price).ToString("c"))
+                                 @((prod.Count *  prod.Price).ToString("c"))
                             </span>
                         </h4>
                     </div>
@@ -54,7 +54,7 @@ else
             </div>
 
             <div class="col-12 col-lg-5 p-4 ml-4 ml-md-0 mt-4 mt-md-0 border">
-                <EditForm Model="Order.OrderHeader" >
+                <EditForm Model="Order.OrderHeader" OnValidSubmit="HandleCheckout">
                     <DataAnnotationsValidator />
                     <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Enter Details</p></div></div>
 
@@ -133,12 +133,13 @@ else
                     ProductId = item.ProductId,
                     Size = productPrice.Condition,
                     Count = item.Count,
-                    Price=productPrice.PriceAdd,
+                    //Add Live Price Here : #TODO
+                    Price= (productPrice.PriceAdd + (product.Weight * 260 * product.Purify)),
                     ProductName = product.ProductName,
                     Product = product
                 };
             Order.OrderDetails.Add(orderDetailDTO);
-            Order.OrderHeader.OrderTotal +=(item.Count * productPrice.Price);
+            Order.OrderHeader.OrderTotal +=(item.Count * orderDetailDTO.Price);
         }
 
         if(await _localStorage.GetItemAsync<UserDTO>(SD.Local_UserDetails)!=null)
@@ -155,32 +156,32 @@ else
     }
 
 
-    //private async Task HandleCheckout()
-    //{
-    //    try
-    //    {
-    //        IsProcessing=true;
-    //        var paymentDto = new StripePaymentDTO()
-    //            {
-    //                Order= Order
-    //            };
+    private async Task HandleCheckout()
+    {
+        try
+        {
+            IsProcessing=true;
+            var paymentDto = new StripePaymentDTO()
+                {
+                    Order= Order
+                };
 
-    //        var result = await _paymentService.Checkout(paymentDto);
+            var result = await _paymentService.Checkout(paymentDto);
 
-    //        var StripeSessionAndPI = result.Data.ToString().Split(';');
+            var StripeSessionAndPI = result.Data.ToString().Split(';');
 
-    //        Order.OrderHeader.SessionId= StripeSessionAndPI[0];
-    //        Order.OrderHeader.PaymentIntentId= StripeSessionAndPI[1];
+            Order.OrderHeader.SessionId= StripeSessionAndPI[0];
+            Order.OrderHeader.PaymentIntentId= StripeSessionAndPI[1];
 
-    //        var orderDTOSaved = await _orderService.Create(paymentDto);
+            var orderDTOSaved = await _orderService.Create(paymentDto);
 
-    //         await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDTOSaved);
+             await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDTOSaved);
 
-    //        await _jsRuntime.InvokeVoidAsync("redirectToCheckout", StripeSessionAndPI[0]);
-    //    }
-    //    catch(Exception e)
-    //    {
-    //        await _jsRuntime.ToastrError(e.Message);
-    //    }
-    //}
+            await _jsRuntime.InvokeVoidAsync("redirectToCheckout", StripeSessionAndPI[0]);
+        }
+        catch(Exception e)
+        {
+            await _jsRuntime.ToastrError(e.Message);
+        }
+    }
 }
