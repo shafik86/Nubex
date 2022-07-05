@@ -23,6 +23,6 @@ namespace Nubex_Models
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string? CreateBy { get; set; }
 
-        public ProductDTO Product { get; set; }
+        
     }
 }

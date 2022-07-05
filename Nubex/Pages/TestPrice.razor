@@ -1,0 +1,17 @@
+﻿@page "/Price"
+@inject IPriceService _PriceService
+<h3>TestPrice</h3>
+<h3 class="text-info">@thisprice</h3>
+<button @onclick="GetPrice" class="btn btn-warning">Click Me</button>
+
+@code {
+    public Prices prices { get; set; } = new Prices();
+    public golds myrPrice { get; set; } = new golds();
+    public double thisprice { get; set; }
+    private async Task GetPrice()
+    {
+        myrPrice = await _PriceService.GetPrice();
+        
+            thisprice = Math.Round(((double)myrPrice.gold.price), 2);
+    }
+}
