@@ -13,4 +13,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductPremiumService, ProductPremiumService>();
+//builder.Services.AddScoped<IPriceService, PriceService>();
+
 await builder.Build().RunAsync();
