@@ -9,30 +9,28 @@ namespace Nubex_Business.Repository
 {
     public class ProductPremiumRepository : IProductPremiumRepository
     {
-
+        public ApplicationDbContext applicationDbContext { get; }
+        public IMapper _mapper { get; set; }
         public ProductPremiumRepository(ApplicationDbContext applicationDbContext, IMapper mapper)
         {
             this.applicationDbContext = applicationDbContext;
             _mapper = mapper;
         }
 
-        public ApplicationDbContext applicationDbContext { get; }
-        public IMapper _mapper { get; set; }
+
         public async Task<ProductPremiumDTO> Create(ProductPremiumDTO objDTO)
         {
-            var product = _mapper.Map<ProductPremiumDTO, ProductPremium>(objDTO);
-            try
+            if (objDTO == null)
             {
+                return null;
+            }
+            var product = _mapper.Map<ProductPremiumDTO, ProductPremium>(objDTO);
+   
             var obj =  applicationDbContext.ProductPremiums.Add(product);
             await applicationDbContext.SaveChangesAsync();
 
             return _mapper.Map<ProductPremium, ProductPremiumDTO>(obj.Entity);
-        }
-            catch (Exception)
-            {
-
-                return null;
-            }
+       
         }
 
         public async Task<int> Delete(int id)

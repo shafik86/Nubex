@@ -19,6 +19,7 @@
 
 
     <div class="col-12 p-3">
+
         @if (products.Any())
         {
             <table class="table table-bordered">
@@ -66,7 +67,11 @@
             {
                 //loading
 
-                <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                <div class="col-12">
+                <progress class="progress-bar-animated w-100">
+
+                </progress>
+            </div>
 
             }
             else

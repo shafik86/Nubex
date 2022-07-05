@@ -12,6 +12,9 @@ namespace Nubex_Business.Mapper
             CreateMap<Category,CategoryDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<ProductPremium, ProductPremiumDTO>().ReverseMap();
+            //CreateMap<OrderHeaderDTO, OrderHeader>().ReverseMap();
+            //CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
+            //CreateMap<OrderDTO, Order>().ReverseMap();
         }
     }
 }

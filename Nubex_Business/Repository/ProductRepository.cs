@@ -9,31 +9,22 @@ namespace Nubex_Business.Repository
 {
     public class ProductRepository : IProductRepository
     {
+        public ApplicationDbContext DbContext { get; }
+        public IMapper _mapper { get; set; }
         public ProductRepository(ApplicationDbContext dbContext, IMapper mapper)
         {
             DbContext = dbContext;
             _mapper = mapper;
         }
 
-        public ApplicationDbContext DbContext { get; }
-        public IMapper _mapper { get; set; }
         public async Task<ProductDTO> Create(ProductDTO objDTO)
         {
             var product = _mapper.Map<ProductDTO, Product>(objDTO);
-            try
-            {
-                var obj = DbContext.Products.Add(product);
-                await DbContext.SaveChangesAsync();
 
-                return _mapper.Map<Product, ProductDTO>(obj.Entity);
-            }
-            catch (Exception)
-            {
-
-                return null;
-            }
-
-
+            var obj = DbContext.Products.Add(product);
+            await DbContext.SaveChangesAsync();
+            var final = _mapper.Map<Product, ProductDTO>(obj.Entity);
+            return final;
         }
 
         public async Task<int> Delete(int id)
@@ -49,7 +40,7 @@ namespace Nubex_Business.Repository
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            var result= _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(u => u.Category).Include(c=>c.ProductPrices));
+            var result = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(u => u.Category).Include(c => c.ProductPrices));
             return result;
         }
 

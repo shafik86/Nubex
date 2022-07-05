@@ -18,7 +18,7 @@ namespace Nubex_Models
         [Required]
         public string Condition { get; set; }
         public double PriceAdd { get; set; } = 0;
-        public double? Price { get; set; } = 0;
+        public double Price { get; set; } = 0;
         public int Quantity { get; set; } = 0;
         public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string? CreateBy { get; set; }
