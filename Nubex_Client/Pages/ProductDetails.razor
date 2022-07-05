@@ -1,10 +1,11 @@
 ﻿@page "/Product/details/{Id:int}"
 @page "/Product/details"
 @inject IProductService _ProductService
+@inject ICartService _cartService
+@inject NavigationManager _navigationManager
 @*@inject IPriceService _priceService*@
 @using Nubex_Client.ViewModels
-@using System.Xml.Serialization;
-@inject IJSRuntime jsRuntime
+@inject IJSRuntime _jsRuntime
 @inject HttpClient Http
 
 <style>
@@ -71,11 +72,11 @@ else
                                     }
                                 }
 
-                          
-                                
+
+
                             </div>
 
-                            <form class="d-flex justify-content-left pt-3">
+                            <div class="d-flex justify-content-left pt-3">
                                 @if (!Product.ProductPrices.Any())
                                 {
                                     <p class="text-warning">No Size available yet...</p>
@@ -90,10 +91,10 @@ else
                                         <div class="col-2 text-primary"><h4>Count</h4></div>
                                     </div>
                                 }
-                            </form>
-                                    <div class="row">
-                                    <p class="lead">@Qty In Stock</p>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <p class="lead">@Qty In Stock</p>
+                            </div>
                             <br />
                             <button class="btn btn-dark btn-md my-0 p" type="submit">
                                 Add to cart
@@ -125,6 +126,8 @@ else
         </main>
     </EditForm>
 }
+
+
 @code {
     [Parameter]
     public int Id { get; set; }
@@ -158,75 +161,27 @@ else
 
     private async Task AddToCart()
     {
-        //ShoppingCart shoppingCart = new()
-        //    {
-        //        Count=DetailsVM.Count,
-        //        ProductId=ProductId,
-        //        ProductPriceId = DetailsVM.SelectedProductPriceId
-        //    };
+        //Console.WriteLine("TestClick");
+        ShoppingCart shoppingCart = new()
+            {
+                Count=DetailsVM.Count,
+                ProductId=Id,
+                ProductPriceId = DetailsVM.SelectedProductPremiumId
+            }; 
 
-        //    await _cartService.IncrementCart(shoppingCart);
-        //    _navigationManager.NavigateTo("/");
-        //    await _jsRuntime.ToastrSuccess("Product added to cart successfully");
+            await _cartService.IncrementCart(shoppingCart);
+            _navigationManager.NavigateTo("/");
+            await _jsRuntime.ToastrSuccess("Product added to cart successfully");
     }
 
     public async void SetPrice()
     {
 
-        var url = new Uri("https://gold-feed.com/paid/d7d6s6d66k4j4658e6d6cds638940e/xmlgold_myr.php");
-        //var url = new Uri("https://gold-feed.com/paid/d7d6s6d66k4j4658e6d6cds638940e/xmlgold_usd.php");
-        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-        using (HttpClient client = new HttpClient())
-        {
-            var result = await client.GetStreamAsync(url, cts.Token);
-            if (result != null)
-            {
-
-                var xmlserial = new XmlSerializer(typeof(golds));
-                using (var reader = new StreamReader(result))
-                {
-                    AllPrice = (golds)xmlserial.Deserialize(reader);
-
-                }
-
-                //Console.WriteLine(result);
-
-            }
-            else
-            {
-                Console.WriteLine("Error ");
-            }
-            }
-                     priceDTO.goldPrice_Myr = AllPrice.gold.price / (decimal)31.1035;
-                PricesDisplay = Math.Round(((double)priceDTO.goldPrice_Myr * Product.Weight), 2);
-      
         //set Fake Price
-        //PricesDisplay = 280 * Product.Weight * Product.Purify;
+        PricesDisplay = 260 * Product.Weight * Product.Purify;
 
-        // Set default price
-        //var url = new Uri("https://gold-feed.com/paid/d7d6s6d66k4j4658e6d6cds638940e/xmlgold_myr.php");
-        //var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-        //using (HttpClient client = new HttpClient())
-        //{
-        //    var result = await client.GetStringAsync("https://gold-feed.com/paid/d7d6s6d66k4j4658e6d6cds638940e/xmlgold_myr.php");
-        //    if (result != null)
-        //    {
-        //        Console.WriteLine("result");
-        //        //var xmlserial = new XmlSerializer(typeof(golds));
-        //        //using (var reader = new StringReader(result))
-        //        //{
-        //        //    AllPrice = (golds)xmlserial.Deserialize(reader);
-
-        //        //}
-        //        //priceDTO.goldPrice_Myr = AllPrice.gold.price / (decimal)31.1035;
-        //        //PricesDisplay = Math.Round(((double)priceDTO.goldPrice_Myr * Product.Weight), 2);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("ERROER");
-        //    }
-        //    }
-        Console.Write("test");
+        
+        //Console.Write("test");
         //use price service here...
         //AllPrice = await _priceService.GetPrice();
         //priceDTO.goldPrice_Myr = AllPrice.gold.price / (decimal)31.1035;

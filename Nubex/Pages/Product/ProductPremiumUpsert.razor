@@ -14,8 +14,12 @@
     @if (IsLoading)
     {
 
-        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+        //Loading
+        <div class="col-12">
+                <progress class="progress-bar-animated w-100">
 
+                </progress>
+            </div>
     }
     else
     {
@@ -91,7 +95,7 @@
     public string Title { get; set; } = "Create";
     public bool IsLoading { get; set; } = true;
     public ProductDTO Product { get; set; }
-    public IEnumerable<ProductDTO> Products { get; set; } = new List<ProductDTO>();
+    
     public ProductPremiumDTO ProductPrices { get; set; } 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -43,7 +43,7 @@
                         </div>
                 </div>*@
 
-                    @*<div class="form-group col-4">
+                    @*<div class="form-group col-3">
                         <div class="form-check">
                             <InputCheckbox @bind-Value="products.IsHighlighted" class="form-check-input"></InputCheckbox>
                             <label class="form-check-label">Is Highlight</label>
@@ -88,8 +88,10 @@
                     <label>Purify</label>
                     <InputSelect @bind-Value="products.Purify" class="form-control">
                         <option value="0" disabled="disabled" selected>--Select Categeory--</option>
-                        <option value="999" selected>999</option>
-                        <option value="916" selected>916</option>
+                        <option value="0.9999" selected>999</option>
+                        <option value="0.999" selected>999</option>
+                        <option value="0.917" selected>917</option>
+                        <option value="0.916" selected>916</option>
                     </InputSelect>
                 </div>
             </div>
@@ -100,7 +102,7 @@
                 </div>
                 <div class="form-group col-6">
                     <label>Certificate</label>
-                    <InputText @bind-Value="products.Certificate" class="form-control"></InputText>
+                    <InputText @bind-Value="products.Certificate" class="form-control "></InputText>
                 </div>
             </div>
 
@@ -115,19 +117,20 @@
                 <div class="col-4">
                     <img src="@products.Image1" class="w-100" />
                     <div class="form-group">
-                        <InputFile OnChange="HandleImageUpload"></InputFile>
+                        @*<input type="file" onchange="HandleImageUpload1" class="oi-badge" />*@
+                        <InputFile OnChange="HandleImageUpload1"></InputFile>
                     </div>
                 </div>
                 <div class="col-4">
                     <img src="@products.Image2" class="w-100" />
                     <div class="form-group">
-                        <InputFile OnChange="HandleImageUpload"></InputFile>
+                        <InputFile  OnChange="HandleImageUpload2" class="nav-pills icon"></InputFile>
                     </div>
                 </div>
                 <div class="col-4">
                     <img src="@products.Image3" class="w-100" />
                     <div class="form-group">
-                    <InputFile OnChange="HandleImageUpload"></InputFile>
+                    <InputFile OnChange="HandleImageUpload3"></InputFile>
                     </div>
                 </div>
                 </div>
@@ -207,7 +210,7 @@
         _navigation.NavigateTo("/product");
     }
 
-    private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    private async Task HandleImageUpload1(InputFileChangeEventArgs e)
     {
         IsLoading = true;
         try
@@ -219,9 +222,74 @@
                     System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
                     if (fileInfo.Extension.ToLower() == ".jpg" ||
                     fileInfo.Extension.ToLower() == ".png" ||
-                    fileInfo.Extension.ToLower() == ".jpeg")
+                    fileInfo.Extension.ToLower() == ".jpeg" ||
+                    fileInfo.Extension.ToLower() == ".jfif")
                     {
                         products.Image1 = await _fileUpload.UploadFile(file);
+                        await jsRuntime.ToastrSuccess("Upload image Successful");
+                    }
+                    else
+                    {
+                        await jsRuntime.ToastrError("Please select .jpg/ .jpeg/ .png file only");
+                        return;
+                    }
+                }
+            }
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            await jsRuntime.ToastrError(ex.Message);
+        }
+    }
+    private async Task HandleImageUpload2(InputFileChangeEventArgs e)
+    {
+        IsLoading = true;
+        try
+        {
+            if (e.GetMultipleFiles().Count > 0)
+            {
+                foreach (var file in e.GetMultipleFiles())
+                {
+                    System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
+                    if (fileInfo.Extension.ToLower() == ".jpg" ||
+                    fileInfo.Extension.ToLower() == ".png" ||
+                    fileInfo.Extension.ToLower() == ".jpeg" ||
+                    fileInfo.Extension.ToLower() == ".jfif")
+                    {
+                        products.Image2 = await _fileUpload.UploadFile(file);
+                        await jsRuntime.ToastrSuccess("Upload image Successful");
+                    }
+                    else
+                    {
+                        await jsRuntime.ToastrError("Please select .jpg/ .jpeg/ .png file only");
+                        return;
+                    }
+                }
+            }
+            IsLoading = false;
+        }
+        catch (Exception ex)
+        {
+            await jsRuntime.ToastrError(ex.Message);
+        }
+    }
+    private async Task HandleImageUpload3(InputFileChangeEventArgs e)
+    {
+        IsLoading = true;
+        try
+        {
+            if (e.GetMultipleFiles().Count > 0)
+            {
+                foreach (var file in e.GetMultipleFiles())
+                {
+                    System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
+                    if (fileInfo.Extension.ToLower() == ".jpg" ||
+                    fileInfo.Extension.ToLower() == ".png" ||
+                    fileInfo.Extension.ToLower() == ".jpeg" ||
+                    fileInfo.Extension.ToLower() == ".jfif")
+                    {
+                        products.Image3 = await _fileUpload.UploadFile(file);
                         await jsRuntime.ToastrSuccess("Upload image Successful");
                     }
                     else
