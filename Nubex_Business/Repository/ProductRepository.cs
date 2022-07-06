@@ -40,8 +40,21 @@ namespace Nubex_Business.Repository
 
         public async Task<IEnumerable<ProductDTO>> GetAll()
         {
-            var result = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(DbContext.Products.Include(u => u.Category).Include(c => c.ProductPrices));
-            return result;
+            //IEnumerable<Product> prod = new List<Product>();
+            //prod = await DbContext.Products
+            //    .Include(u => u.Category)
+            //    .Include(c => c.ProductPrices)
+            //    .ToListAsync();
+
+            //if (prod != null)
+            //{
+            //    return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(prod);
+            //}
+            //return new List<ProductDTO>();
+
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(await DbContext.Products
+                    .Include(u => u.Category)
+                    .Include(c => c.ProductPrices).ToListAsync());
         }
 
         public async Task<ProductDTO> GetById(int id)
@@ -65,7 +78,7 @@ namespace Nubex_Business.Repository
 
         public async Task<ProductDTO> Update(ProductDTO objDTO)
         {
-            var result = DbContext.Products.FirstOrDefault(c => c.ProductId == objDTO.ProductId);
+            var result = await DbContext.Products.FirstOrDefaultAsync(c => c.ProductId == objDTO.ProductId);
             if (result != null)
             {
                 result.ProductSKU = objDTO.ProductSKU;
