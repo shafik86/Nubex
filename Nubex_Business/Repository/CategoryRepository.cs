@@ -41,7 +41,9 @@ namespace Nubex_Business.Repository
 
         public async Task<IEnumerable<CategoryDTO>> GetAll()
         {
-            return  _mapper.Map<IEnumerable<Category>,IEnumerable<CategoryDTO>>(applicationDbContext.Categories);
+
+          return _mapper.Map<IEnumerable<Category>,IEnumerable<CategoryDTO>>(applicationDbContext.Categories);
+      
 
         }
 
