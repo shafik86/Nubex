@@ -14,9 +14,13 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IProductPremiumService, ProductPremiumService>();
 //builder.Services.AddScoped<IPriceService, PriceService>();
 
 builder.Services.AddBlazoredLocalStorage();
-
+//builder.Services.AddAuthorizationCore();
+//builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+//builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 await builder.Build().RunAsync();

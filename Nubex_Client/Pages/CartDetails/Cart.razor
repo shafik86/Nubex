@@ -90,7 +90,7 @@ else
 				</div>
 				<div class="card-footer">
 					<div class="col-12  col-md-3 offset-md-9">
-						<a href="/summary" class="btn btn-secondary form-control">Summary</a>
+						<a href="/summary" class="btn btn-secondary form-control">Checkout</a>
 					</div>
 				</div>
 			</div>
@@ -122,8 +122,8 @@ else
 		foreach(var cart in ShoppingCart)
 		{
 			cart.Product = Products.FirstOrDefault(u => u.ProductId==cart.ProductId);
-			//cart.ProductPrice.Price = 1000;
 			cart.ProductPrice=cart.Product.ProductPrices.FirstOrDefault(u => u.Id==cart.ProductPriceId);
+			//Add Live Price Here : #TODO
 			cart.ProductPrice.Price = (cart.Product.Weight * cart.Product.Purify * 260);
 			OrderTotal+=((cart.ProductPrice.Price + cart.ProductPrice.PriceAdd) * cart.Count);
 		}

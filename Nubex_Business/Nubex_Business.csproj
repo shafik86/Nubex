@@ -8,9 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Stripe.net" Version="39.121.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Nubex_Common\Nubex_Common.csproj" />
     <ProjectReference Include="..\Nubex_DataAccess\Nubex_DataAccess.csproj" />
     <ProjectReference Include="..\Nubex_Models\Nubex_Models.csproj" />
   </ItemGroup>
