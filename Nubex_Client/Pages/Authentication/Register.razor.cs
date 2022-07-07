@@ -21,7 +21,7 @@ namespace Nubex_Client.Pages.Authentication
         {
             ShowRegistrationErrors=false;
             IsProcessing=true;
-            var result =  _authSerivce.RegisterUser(SignUpRequest).GetAwaiter().GetResult();
+            var result = await  _authSerivce.RegisterUser(SignUpRequest);
             if (result.IsRegisterationSuccessful)
             {
                 //regiration is successful

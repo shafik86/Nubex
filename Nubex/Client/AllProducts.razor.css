@@ -1,4 +1,56 @@
-﻿/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');*/
+﻿.hh {
+    color: black;
+}
+
+.grad {
+    background-image: url('images/marble.jpg');
+    /*background-size: cover;*/
+}
+
+.zoom {
+    transition: transform .0s; /* Animation */
+}
+
+    .zoom:hover {
+        transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+
+.card-button {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    background-image: url('https://images.cdn3.stockunlimited.net/preview1300/abstract-background-design_1994665.jpg ');
+    background-size: cover;
+    color: black;
+    border-radius: 0 0 8px 8px;
+}
+
+.abcd {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/001/995/978/large_2x/light-gray-marble-background-free-photo.jpg');
+    background-size: cover;
+}
+
+.lala {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    background-image: url('');
+    background-size: cover;
+    color: black;
+    border-radius: 0 0 8px 8px;
+}
+
+.page-link {
+    color:black;
+}
+
+
+
+
+/*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 body {
     font-family: "Poppins", sans-serif;
@@ -159,3 +211,39 @@ a:hover {
             background-color: #444444;
             transform: translateY(-50%);
         }
+
+.zoom {
+    transition: transform .0s;*/ /* Animation */
+/*}
+
+    .zoom:hover {
+        transform: scale(1.1);*/ /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    /*}
+
+
+.card-button {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    background-image: url('https://images.cdn3.stockunlimited.net/preview1300/abstract-background-design_1994665.jpg ');
+    background-size: cover;
+    color: black;
+    border-radius: 0 0 8px 8px;
+}
+
+.abcd {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/001/995/978/large_2x/light-gray-marble-background-free-photo.jpg');
+    background-size: cover;
+}
+
+.lala {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    background-image: url('');
+    background-size: cover;
+    color: black;
+    border-radius: 0 0 8px 8px;
+}*/
