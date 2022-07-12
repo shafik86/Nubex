@@ -4,7 +4,7 @@
 @inject ICategoryRepository categoryRepository
 @inject IJSRuntime jsruntimne
 @inject NavigationManager _navigation
-
+@attribute [Authorize(Roles = SD.Role_Admin)]
 
 @*<_DeleteConfirmation ConfirmationChanged="ConfirmDelete_Click"></_DeleteConfirmation>*@
 <div class="row mt-4">

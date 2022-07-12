@@ -4,13 +4,13 @@ using Nubex_DataAccess.ViewModel;
 using Nubex_Models;
 
 
-namespace Nubex_Business.Mapper
+namespace Nubex_Business.Mapper 
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<Category,CategoryDTO>().ReverseMap();
+            CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<ProductPremium, ProductPremiumDTO>().ReverseMap();
             CreateMap<OrderHeaderDTO, OrderHeader>().ReverseMap();

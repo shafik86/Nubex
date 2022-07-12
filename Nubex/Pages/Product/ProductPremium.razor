@@ -67,30 +67,7 @@
                 </tbody>
             </table>
         </div>
-        @*<div class="container-md border col-12 pt-3 mb-2">
-            <SfGrid @ref="productPriceGrid" DataSource="@ProductPrices" AllowPaging="true"
-            Toolbar="@(new List<string>{"Add","Edit","Update","Delete","Cancel"})">
-            <GridPageSettings PageSize="5"></GridPageSettings>
-            <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" ShowDeleteConfirmDialog="true"></GridEditSettings>
-            <GridEvents OnActionBegin="ActionHandler" TValue="ProductPremiumDTO"></GridEvents>
-            <GridColumns>
-            <GridColumn Field=@nameof(ProductPremiumDTO.Id) HeaderText="ID" ></GridColumn>
-            <GridColumn Field=@nameof(ProductPremiumDTO.Quantity) HeaderText="Quantity" ></GridColumn>
-            <GridColumn Field=@nameof(ProductPremiumDTO.Condition) HeaderText="Condition" >
-            <EditTemplate>
-            <Syncfusion.Blazor.DropDowns.SfDropDownList DataSource="SizeList" TItem="string" TValue="string" @bind-Value="((context as ProductPremiumDTO).Condition)"></Syncfusion.Blazor.DropDowns.SfDropDownList>
-            </EditTemplate>
-            </GridColumn>
-            <GridColumn Field=@nameof(ProductPremiumDTO.PriceAdd) HeaderText="Price" Format="C2" ></GridColumn>
-            </GridColumns>
-            </SfGrid>
-            </div>
-            <div>
-            <NavLink href="Product" class="btn btn-secondary">
-            <span class="oi oi-arrow-left" aria-hidden="true" />
-            Back to Index
-            </NavLink>
-            </div>*@
+        
     }
 
 </div>
@@ -100,12 +77,8 @@
     public int Id { get; set; }
     public ProductDTO Product { get; set; } = new();
     public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; } = new List<ProductPremiumDTO>();
-    public bool IsLoading { get; set; } = true;
-    //public SfGrid<ProductPremiumDTO> productPriceGrid { get; set; }
-    //IEnumerable<String> SizeList = new List<String>()
-    //{
-    //    "A+", "A","B+","B","C","D"
-    //};
+    public bool IsLoading { get; set; } = false;
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -113,30 +86,18 @@
         {
             IsLoading = true;
             StateHasChanged();
-            ProductPrices = await _productPremiumRepository.GetAll(Id);
-            Product = await _ProductRepository.GetById(Id);
+            LoadItem();
             IsLoading = false;
             StateHasChanged();
         }
     }
-    //public async void ActionHandler(ActionEventArgs<ProductPremiumDTO> args)
-    //{
-    //    if (args.RequestType.Equals(Syncfusion.Blazor.Grids.Action.Save))
-    //    {
-    //        args.Data.ProductId = Id;
-    //        if (args.Action=="Add")
-    //        {
-    //            await _productPremiumRepository.Create(args.Data);
-    //            ProductPrices = await _productPremiumRepository.GetAll(Id);
-    //            productPriceGrid.Refresh();
-    //        }
 
-    //        if (args.Action=="Edit")
-    //        {
-    //            productPriceGrid.Refresh();
-    //        }
-    //    }
-    //}
+    public async void LoadItem()
+    {
+        ProductPrices = await _productPremiumRepository.GetAll(Id);
+        Product = await _ProductRepository.GetById(Id);
+    }
+ 
     private async void HandleDelete(int id)
     {
         var pricePremium = await _productPremiumRepository.GetById(id);
@@ -144,6 +105,7 @@
         {
             await _productPremiumRepository.Delete(id);
             _JsRuntime.ToastrSuccess($"Product Premium for {pricePremium.Condition} is successful deleted");
+            LoadItem();
             StateHasChanged();
         }
     }

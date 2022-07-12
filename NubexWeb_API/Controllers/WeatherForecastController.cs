@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nubex_Common;
 
 namespace NubexWeb_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Roles = SD.Role_Customer)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

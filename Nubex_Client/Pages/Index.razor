@@ -1,7 +1,30 @@
 ﻿@page "/"
 @inject IProductService _productService
 
+@*<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+*@
 <PageTitle>Home</PageTitle>
+@*<AuthorizeView>
+    <Authorized>
+        <p>Welcome, @context.User.Identity.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Do not come here</p>
+    </NotAuthorized>
+</AuthorizeView>*@
+
+
 @if (IsProcessing)
 {
     <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
@@ -11,92 +34,203 @@
 else
 {
 
-
-    <div class="row pt-4 p-3 mb-2">
-        <div class="col-lg-12 border">
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="images/carousel/banner-custom-mint_1.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="images/carousel/banner-largest-producer.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="images/carousel/banner-metals.jpg" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="images/carousel/nusagold.png" class="d-block w-100" alt="...">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+    <!-- Navigation-->
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="images/carousel/banner-custom-mint_1.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="images/carousel/banner-largest-producer.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="images/carousel/banner-metals.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="images/carousel/nusagold.png" class="d-block w-100" alt="...">
             </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <div class="row pt-4 p-3 mb-2">
-        <div class="pt-3 mb-2">
+    <section class="grad py-3" id="features">
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+                <div class="container py-5">
+                    <header class="mb-5">
+                        <h2 class="hh font-weight-bold mb-2">CATEGORIES</h2>
+                        <hr />
+                    </header>
+                    <center>
+                    <div class="row pb-5 mb-4">
 
-            <center><h3>Product Highlight </h3></center>
+                        <div class="zoom col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <div class="abcd card rounded border-0 bg-transparent">
+                                <div class="abc card-body p-4 bg-transparent">
+                                    <a href="/product">
+                                        <img src="images/ALLCAT.png" alt="" class="img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                </div>
+                                <a href="#" style="text-decoration:none;" class="card-button">ALL PRODUCTS</a>
+                            </div>
+                        </div>
+                        @foreach (var category in Products.Select(u => u.Category.Name).Distinct())
+                        {
+
+                            <div class="zoom col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                <div class="abcd card rounded border-0 bg-transparent">
+                                    <div class="abc card-body p-4 bg-transparent">
+                                        <a href="/product">
+                                            <img src="images/GCAT.png" alt="" class="img-fluid d-block mx-auto mb-3">
+                                        </a>
+                                    </div>
+                                    <a href="#" style="text-decoration:none;" class="card-button">@category</a>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    </center>
+                </div>
+            </div>
         </div>
-    </div>
-    <hr class="w-100" />
-    <div class="row pt-4 m-2">
-        <div class="row col-md-12  p-3">
-            @foreach (var item in Products)
-            {
-                
-            
-                <div class="col-3 p-3 ">
-                    <div class="card" style="width: 18rem;">
-                        <img src="@item.Image1" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.ProductName</h5>
-                            <p class="card-text">@((MarkupString)item.Description)</p>
-                            
-                            @*<a href="@($"/details/{item.ProductId}")" class="btn btn-primary">Go somewhere</a>*@
-                            <a href="/product/details/@item.ProductId" class="btn btn-primary">Go somewhere</a>
+
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+                <div class="container py-5">
+
+                    <header class="mb-5">
+                        <h2 class="hh font-weight-bold mb-2">TOP PRODUCTS</h2>
+                        <hr />
+                    </header>
+
+                    <div class="row pb-5 mb-4">
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/Product">
+                                        <img src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" alt="" class="ced img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                    <h3 class="product-title">PAMP SUISSE CAST BAR</h3>
+                                    <h5 class="product-price">Price From RM12961.78</h5>
+
+                                    @*<p class="small text-muted font-italic">Product Name 03df3807-2dce-4957-ae55-1eff72670e93 03df3807-2dce-4957-ae55-1eff72670e93</p>*@
+                                </div>
+                                <div class="lala">
+                                    <button type="button" class="btn">Buy now</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/product">
+                                        <img src="images/product/0c071831-93e7-4a9b-b486-63bd1aaee859.jpg" alt="" class="img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                    <p class="small text-muted font-italic">Product Name</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/product"><img src="images/product/446b1271-1218-4ed4-94fb-c0e5eafa2b57.jpg" alt="" class="img-fluid d-block mx-auto mb-3"></a>
+                                    <p class="small text-muted font-italic">Product Name</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/product">
+                                        <img src="images/product/7d609d7c-bf7f-41a5-8d10-eb7fc5a9429e.jpg" alt="" class="img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                    <p class="small text-muted font-italic">Product Name</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-           
-                
-            }
-        </div>
-    </div>
-    <hr class="w-100" />
 
-    <center><h3 class="justify-content-center">Latest Product Added</h3></center>
-    <hr />
-    <div class="row pt-4 p-3 mb-2">
-        <div class="row col-md-12  p-3">
-            @foreach (var item in Products)
-            {
-                
-            
-                <div class="col-3 p-3 ">
-                    <div class="card" style="width: 18rem;">
-                        <img src="@item.Image1" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.ProductName</h5>
-                            <p class="card-text">@((MarkupString)item.Description)</p>
-                            
-                            @*<a href="@($"/details/{item.ProductId}")" class="btn btn-primary">Go somewhere</a>*@
-                            <a href="/product/details/@item.ProductId" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+                <div class="container py-5">
+
+                    <header class="mb-5">
+                        <h2 class="hh font-weight-bold mb-2">NEW ARRIVALS</h2>
+                        <hr />
+                    </header>
+
+                    <div class="row pb-5 mb-4">
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/Product">
+                                        <img src="images/product/03df3807-2dce-4957-ae55-1eff72670e93.jpg" alt="" class="ced img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                    <p class="small text-muted font-italic">03df3807-2dce-4957-ae55-1eff72670e93 03df3807-2dce-4957-ae55-1eff72670e93</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/product">
+                                        <img src="images/product/0c071831-93e7-4a9b-b486-63bd1aaee859.jpg" alt="" class="img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                    <p class="small text-muted font-italic">Product Name</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/product"><img src="images/product/446b1271-1218-4ed4-94fb-c0e5eafa2b57.jpg" alt="" class="img-fluid d-block mx-auto mb-3"></a>
+                                    <p class="small text-muted font-italic">Product Name</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                            <!-- Card-->
+                        <div class="card rounded shadow-sm border-0">
+                                <div class="abc card-body p-4">
+                                    <a href="/product">
+                                        <img src="images/product/7d609d7c-bf7f-41a5-8d10-eb7fc5a9429e.jpg" alt="" class="img-fluid d-block mx-auto mb-3">
+                                    </a>
+                                    <p class="small text-muted font-italic">Product Name</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-           
-                
-            }
+            </div>
         </div>
-    </div>
+
+    </section>
+
 }
 @*<script type="text/javascript">
     var myCarousel = document.querySelector('#myCarousel')
