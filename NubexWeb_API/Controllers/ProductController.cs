@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nubex_Business.Repository.IRepository;
+using Nubex_Common;
 using Nubex_Models;
 
 namespace NubexWeb_API.Controllers
@@ -16,6 +18,7 @@ namespace NubexWeb_API.Controllers
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> GetAll()
         {
             var result = await _productRepository.GetAll();

@@ -18,6 +18,8 @@ namespace Nubex_Common
 
         public const string Role_Admin = "Admin";
         public const string Role_Customer = "Customer";
+        public const string Role_Account = "Account";
+        public const string Role_Cara = "Cara";
 
         public const string Local_Token = "JWT Token";
         public const string Local_OrderDetails = "Local_OrderDetails";

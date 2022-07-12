@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Nubex_Client;
@@ -20,7 +21,7 @@ builder.Services.AddScoped<IProductPremiumService, ProductPremiumService>();
 //builder.Services.AddScoped<IPriceService, PriceService>();
 
 builder.Services.AddBlazoredLocalStorage();
-//builder.Services.AddAuthorizationCore();
-//builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-//builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 await builder.Build().RunAsync();
