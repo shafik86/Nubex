@@ -33,6 +33,7 @@ else
                     <div class="col-5 col-md-5 ">
                         <span class="">Product : @prod.ProductName </span><br />
                         <span class="pt-1">Weight : @prod.Product.Weight</span><br />
+                        <span class="pt-1">Condition : @prod.Size</span><br />
                         <span class="pt-1">Count : @prod.Count</span><br />
 
                     </div>
@@ -106,6 +107,7 @@ else
 @code {
     public bool IsProcessing { get; set; } = false;
     private OrderDTO Order { get; set; } = null;
+    public double LivePrice { get; set; } = 260;
     private IEnumerable<ProductDTO> Products { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -134,7 +136,7 @@ else
                     Size = productPrice.Condition,
                     Count = item.Count,
                     //Add Live Price Here : #TODO
-                    Price= (productPrice.PriceAdd + (product.Weight * 260 * product.Purify)),
+                    Price= (productPrice.PriceAdd + (product.Weight * LivePrice * product.Purify)),
                     ProductName = product.ProductName,
                     Product = product
                 };
