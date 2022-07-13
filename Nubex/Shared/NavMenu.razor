@@ -1,67 +1,68 @@
-﻿
-<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-1 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="ntext navbar-brand " href="">Nubex Admin</a>
+        <a class="navbar-brand text-dark" href="/"><img src="/images//nubex_logo.png" class="w-100 p-0 mb-2 align-content-center" /></a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
-<div class=" @NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+         
+        <AuthorizeView Roles="@roleAdmin">
+        <Authorized>
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/category">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Category
             </NavLink>
         </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/allproducts">
-                    <span class="oi oi-list" aria-hidden="true"></span> All Products User
-                </NavLink>
-            </div>
-
-            <AuthorizeView Roles="@roleAdmin">
-                <Authorized >
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/Category">
-                    <span class="oi oi-list" aria-hidden="true"></span> Category
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/Product">
-                    <span class="oi oi-list" aria-hidden="true"></span> Products
-                </NavLink> 
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="/identity/account/logout">
-                    <span class="oi oi-account-logout" aria-hidden="true"></span> Log Out
-                </NavLink>
-            </div>
-            </Authorized>
-
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/product">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Product
+            </NavLink>
+        </div>
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/orderlist">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Orders
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Identity/Account/Logout">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/swagger/index.html">
+                <span class="oi oi-info" aria-hidden="true"></span> Swagger
+            </NavLink>
+        </div>
+        </Authorized>
         <NotAuthorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/identity/account/login">
-                        <span class="oi oi-account-login" aria-hidden="true"></span> Log In
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="/orderdetail">
-                        <span class="oi oi-list" aria-hidden="true"></span> Order Detail User
-                    </NavLink>
-                </div>
-                </NotAuthorized>
-            </AuthorizeView>
-    
+            <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Identity/Account/Login">
+                <span class="oi oi-account-login" aria-hidden="true"></span> Login
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Identity/Account/Register">
+                <span class="oi oi-target" aria-hidden="true"></span> Register
+            </NavLink>
+        </div>
+        </NotAuthorized>
+        </AuthorizeView>
+        
+        
+       
     </nav>
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
     private string roleAdmin = SD.Role_Admin;
-    private string roleAcount = SD.Role_Account;
-    private string roleCara = SD.Role_Cara;
+
+
+    private bool collapseNavMenu = true;
+
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()

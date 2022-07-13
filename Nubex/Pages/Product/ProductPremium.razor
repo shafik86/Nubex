@@ -31,7 +31,7 @@
                 <div class="col-6">
                     <h3>@Product.ProductName</h3>
                     <h5># @Product.ProductSKU</h5>
-                    <p>@Product.Category.Name</p>
+                    <p>@Category</p>
                     <p>@((MarkupString)Product.Description)</p>
                 </div>
             </div>
@@ -40,6 +40,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        
                         <th>Conditions</th>
                         <th>Premium Price</th>
                         <th>Quantity</th>
@@ -78,6 +79,8 @@
     public ProductDTO Product { get; set; } = new();
     public IEnumerable<ProductPremiumDTO> ProductPrices { get; set; } = new List<ProductPremiumDTO>();
     public bool IsLoading { get; set; } = false;
+    public string Category { get; set; }
+
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -86,6 +89,7 @@
         {
             IsLoading = true;
             StateHasChanged();
+            Product = await _ProductRepository.GetById(Id);
             LoadItem();
             IsLoading = false;
             StateHasChanged();
@@ -94,8 +98,9 @@
 
     public async void LoadItem()
     {
-        ProductPrices = await _productPremiumRepository.GetAll(Id);
-        Product = await _ProductRepository.GetById(Id);
+        //Product = await _ProductRepository.GetById(Id);
+        ProductPrices = Product.ProductPrices;
+        Category = Product.Category.Name;
     }
  
     private async void HandleDelete(int id)

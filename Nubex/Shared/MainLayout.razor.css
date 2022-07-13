@@ -9,14 +9,14 @@ main {
 }
 
 .sidebar {
-    background-color: #88D0D1;
+    background-color: black;
 }
 
 .top-row {
-    background-color: #211F24;
+    background-color: whitesmoke;
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
-    height: 6.5rem;
+    height: 3.5rem;
     display: flex;
     align-items: center;
 }

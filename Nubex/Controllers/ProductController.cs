@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nubex_Business.Repository.IRepository;
-using Nubex_Common;
 using Nubex_Models;
 
-namespace NubexWeb_API.Controllers
+namespace Nubex.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         public IProductRepository _productRepository { get; }
         public ProductController(IProductRepository productRepository)
@@ -18,7 +16,7 @@ namespace NubexWeb_API.Controllers
         }
 
         [HttpGet]
-        
+
         public async Task<IActionResult> GetAll()
         {
             var result = await _productRepository.GetAll();
@@ -36,6 +34,7 @@ namespace NubexWeb_API.Controllers
                     StatusCode = StatusCodes.Status400BadRequest
                 });
             }
+
             var product = await _productRepository.GetById(productId.Value);
             if (product == null)
             {
@@ -45,9 +44,8 @@ namespace NubexWeb_API.Controllers
                     StatusCode = StatusCodes.Status404NotFound
                 });
             }
+
             return Ok(product);
         }
-
-
     }
 }
